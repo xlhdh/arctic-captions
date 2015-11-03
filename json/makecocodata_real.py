@@ -35,7 +35,7 @@ import scipy, numpy
 ## train.pkl: train
 for idx, im in enumerate(trainimages):
 	try: 
-		data = loadmat('../coco_cnn4/'+im)
+		data = loadmat('../coco_cnn4/'+im+'.mat')
 		sp_train.append(data['o24'][0])
 		cap_train.append((jab[int(im[19:25])], idx))
 	except Exception:
@@ -49,7 +49,7 @@ with open(path+'/coco_align.train.pkl', 'wb') as f:
 ## dev.pkl: val
 for idx, im in enumerate(valimages):
 	try: 
-		data = loadmat('../coco_cnn4/'+im)
+		data = loadmat('../coco_cnn4/'+im+'.mat')
 		sp_val.append(data['o24'][0])
 		cap_val.append((jab[int(im[19:25])], idx))
 	except Exception:
@@ -63,7 +63,7 @@ with open(path+'/coco_align.dev.pkl', 'wb') as f:
 ## test.pkl: test
 for idx, im in enumerate(testimages):
 	try: 
-		data = loadmat('../coco_cnn4/'+im)
+		data = loadmat('../coco_cnn4/'+im+'.mat')
 		sp_test.append(data['o24'][0])
 		cap_test.append((jab[int(im[19:25])], idx))
 	except Exception:
