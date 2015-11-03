@@ -3,44 +3,75 @@ import pandas as pd
 import numpy as np
 import cPickle
 
-sz = 256
+sz = 512
 path = str(sz)
 
 # Load captions from MS
 ja = json.loads(open('captions_val2014.json','r').read())['annotations']
-#captions = [j['caption'] for j in ja]
+jab = {j['image_id']:j['caption'] for j in ja}
+captions = [j['caption'] for j in ja]
 
 
 # Load image splits 
+trainimages = open('../splits/coco_train.txt','r').read().splitlines()
 valimages = open('../splits/coco_val.txt','r').read().splitlines()
-valimages = valimages[:sz]
-valimageids = [int(i[19:25]) for i in valimages]
+testimages = open('../splits/coco_test.txt','r').read().splitlines()
+
+# Making toy test data 
+trainimages = valimages[sz/2:sz]
+valimages = valimages[sz/4:sz/2]
+testimages = valimages[:sz/4]
 
 # Make caps
 cap_val = []
-captions = []
-sp = []
-for it in ja: 
-	if it['image_id'] in valimageids:
-		cap_val.append((it['caption'], valimageids.index(it['image_id'])))
-		# TODO to be consisitent with CNN feats
-		captions.append(it['caption'])
-# End making caps
+cap_train = []
+cap_test = []
+sp_train, sp_test, sp_val = [], [], []
 
-# Make CNN features 
 from scipy.io import loadmat
 import scipy, numpy
-sp = []
-for im in valimages:
-	data = loadmat('../coco_cnn4/'+im)
-	sp.append(data['o24'][0])
-feat_val = scipy.sparse.csr_matrix(numpy.asarray(sp))
-# End making CNN features 
+## train.pkl: train
+for idx, im in enumerate(trainimages):
+	cap_train.append((jab[int(im[19:25])], idx))
+	try: 
+		data = loadmat('../coco_cnn4/'+im)
+		sp_train.append(data['o24'][0])
+	except Exception:
+		pass
+feat_train = scipy.sparse.csr_matrix(numpy.asarray(sp_train))
+with open(path+'/coco_align.train.pkl', 'wb') as f:
+    cPickle.dump(cap_train, f)
+    cPickle.dump(feat_train, f)
+
+## dev.pkl: val
+for idx, im in enumerate(valimages):
+	cap_val.append((jab[int(im[19:25])], idx))
+	try: 
+		data = loadmat('../coco_cnn4/'+im)
+		sp_val.append(data['o24'][0])
+	except Exception:
+		pass
+feat_val = scipy.sparse.csr_matrix(numpy.asarray(sp_val))
 with open(path+'/coco_align.dev.pkl', 'wb') as f:
     cPickle.dump(cap_val, f)
     cPickle.dump(feat_val, f)
 
+## test.pkl: test
+for idx, im in enumerate(testimages):
+	cap_test.append((jab[int(im[19:25])], idx))
+	try: 
+		data = loadmat('../coco_cnn4/'+im)
+		sp_test.append(data['o24'][0])
+	except Exception:
+		pass
+feat_test = scipy.sparse.csr_matrix(numpy.asarray(sp_test))
+with open(path+'/coco_align.test.pkl', 'wb') as f:
+    cPickle.dump(cap_test, f)
+    cPickle.dump(feat_test, f)
 
+
+# Making small dict for test 
+captions = [i[0] for i in cap_train]+[i[0] for i in cap_test]+[i[0] for i in cap_val]
 ### Making dictionary 
 # from nltk import word_tokenize as wt
 caps = []
@@ -57,7 +88,7 @@ with open(path+'/dictionary.pkl', 'wb') as f:
     cPickle.dump(dictionary, f)
 ### End making dictionary 
 
-import shutil
-shutil.copy2(path+'/coco_align.dev.pkl', path+'/coco_align.train.pkl')
-shutil.copy2(path+'/coco_align.dev.pkl', path+'/coco_align.test.pkl')
+#import shutil
+#shutil.copy2(path+'/coco_align.dev.pkl', path+'/coco_align.train.pkl')
+#shutil.copy2(path+'/coco_align.dev.pkl', path+'/coco_align.test.pkl')
 
