@@ -9,7 +9,7 @@ path = "real"
 ja = json.loads(open('captions_val2014.json','r').read())['annotations']
 jt = json.loads(open('captions_train2014.json','r').read())['annotations']
 jab = {j['image_id']:j['caption'] for j in ja}
-jab = jab.update({j['image_id']:j['caption'] for j in jt})
+jab.update({j['image_id']:j['caption'] for j in jt})
 captions = [j['caption'] for j in ja]+[j['caption'] for j in jt]
 
 # Load image splits 
