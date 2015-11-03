@@ -3,30 +3,22 @@ import pandas as pd
 import numpy as np
 import cPickle
 
-sz = 512
-path = str(sz)
 path = "real"
 
 # Load captions from MS
 ja = json.loads(open('captions_val2014.json','r').read())['annotations']
+jt = json.loads(open('captions_train2014.json','r').read())['annotations']
 jab = {j['image_id']:j['caption'] for j in ja}
-captions = [j['caption'] for j in ja]
-
+jab = jab.update({j['image_id']:j['caption'] for j in jt})
+captions = [j['caption'] for j in ja]+[j['caption'] for j in jt]
 
 # Load image splits 
 trainimages = open('../splits/coco_train.txt','r').read().splitlines()
 valimages = open('../splits/coco_val.txt','r').read().splitlines()
 testimages = open('../splits/coco_test.txt','r').read().splitlines()
 
-# Making toy test data 
-#trainimages = valimages[sz/2:sz]
-#valimages = valimages[sz/4:sz/2]
-#testimages = valimages[:sz/4]
-
 # Make caps
-cap_val = []
-cap_train = []
-cap_test = []
+cap_val, cap_train, cap_test = [], [], []
 sp_train, sp_test, sp_val = [], [], []
 captions = []
 
@@ -35,7 +27,7 @@ import scipy, numpy
 ## train.pkl: train
 for idx, im in enumerate(trainimages):
 	try: 
-		data = loadmat('../coco_cnn4/'+im+'.mat')
+		data = loadmat('../coco_cnn4/'+im)
 		sp_train.append(data['o24'][0])
 		cap_train.append((jab[int(im[19:25])], idx))
 	except Exception:
@@ -49,7 +41,7 @@ with open(path+'/coco_align.train.pkl', 'wb') as f:
 ## dev.pkl: val
 for idx, im in enumerate(valimages):
 	try: 
-		data = loadmat('../coco_cnn4/'+im+'.mat')
+		data = loadmat('../coco_cnn4/'+im)
 		sp_val.append(data['o24'][0])
 		cap_val.append((jab[int(im[19:25])], idx))
 	except Exception:
@@ -63,7 +55,7 @@ with open(path+'/coco_align.dev.pkl', 'wb') as f:
 ## test.pkl: test
 for idx, im in enumerate(testimages):
 	try: 
-		data = loadmat('../coco_cnn4/'+im+'.mat')
+		data = loadmat('../coco_cnn4/'+im)
 		sp_test.append(data['o24'][0])
 		cap_test.append((jab[int(im[19:25])], idx))
 	except Exception:
