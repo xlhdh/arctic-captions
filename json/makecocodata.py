@@ -27,15 +27,16 @@ cap_val = []
 cap_train = []
 cap_test = []
 sp_train, sp_test, sp_val = [], [], []
+captions = []
 
 from scipy.io import loadmat
 import scipy, numpy
 ## train.pkl: train
 for idx, im in enumerate(trainimages):
-	cap_train.append((jab[int(im[19:25])], idx))
 	try: 
 		data = loadmat('../coco_cnn4/'+im)
 		sp_train.append(data['o24'][0])
+		cap_train.append((jab[int(im[19:25])], idx))
 	except Exception:
 		pass
 feat_train = scipy.sparse.csr_matrix(numpy.asarray(sp_train))
@@ -45,10 +46,10 @@ with open(path+'/coco_align.train.pkl', 'wb') as f:
 
 ## dev.pkl: val
 for idx, im in enumerate(valimages):
-	cap_val.append((jab[int(im[19:25])], idx))
 	try: 
 		data = loadmat('../coco_cnn4/'+im)
 		sp_val.append(data['o24'][0])
+		cap_val.append((jab[int(im[19:25])], idx))
 	except Exception:
 		pass
 feat_val = scipy.sparse.csr_matrix(numpy.asarray(sp_val))
@@ -58,10 +59,10 @@ with open(path+'/coco_align.dev.pkl', 'wb') as f:
 
 ## test.pkl: test
 for idx, im in enumerate(testimages):
-	cap_test.append((jab[int(im[19:25])], idx))
 	try: 
 		data = loadmat('../coco_cnn4/'+im)
 		sp_test.append(data['o24'][0])
+		cap_test.append((jab[int(im[19:25])], idx))
 	except Exception:
 		pass
 feat_test = scipy.sparse.csr_matrix(numpy.asarray(sp_test))
