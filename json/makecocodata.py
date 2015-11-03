@@ -38,6 +38,7 @@ for idx, im in enumerate(trainimages):
 		sp_train.append(data['o24'][0])
 		cap_train.append((jab[int(im[19:25])], idx))
 	except Exception:
+		print "IMAGE NOT FOUND:",im
 		pass
 feat_train = scipy.sparse.csr_matrix(numpy.asarray(sp_train))
 with open(path+'/coco_align.train.pkl', 'wb') as f:
@@ -51,6 +52,7 @@ for idx, im in enumerate(valimages):
 		sp_val.append(data['o24'][0])
 		cap_val.append((jab[int(im[19:25])], idx))
 	except Exception:
+		print "IMAGE NOT FOUND:",im
 		pass
 feat_val = scipy.sparse.csr_matrix(numpy.asarray(sp_val))
 with open(path+'/coco_align.dev.pkl', 'wb') as f:
@@ -64,6 +66,7 @@ for idx, im in enumerate(testimages):
 		sp_test.append(data['o24'][0])
 		cap_test.append((jab[int(im[19:25])], idx))
 	except Exception:
+		print "IMAGE NOT FOUND:",im
 		pass
 feat_test = scipy.sparse.csr_matrix(numpy.asarray(sp_test))
 with open(path+'/coco_align.test.pkl', 'wb') as f:
