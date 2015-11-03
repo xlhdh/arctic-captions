@@ -13,6 +13,7 @@ def prepare_data(caps, features, worddict, maxlen=None, n_words=10000, zero_pad=
     feat_list = []
     for cc in caps:
         seqs.append([worddict[w] if worddict[w] < n_words else 1 for w in cc[0].split()])
+        # TODO: this is a simple split. will have to use simple split when building dictionary 
         feat_list.append(features[cc[1]])
 
     lengths = [len(s) for s in seqs]
