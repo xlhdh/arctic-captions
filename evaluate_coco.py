@@ -43,7 +43,7 @@ def main(params):
                            saveFreq=1000,
                            sampleFreq=250,
                            dataset="coco",
-                           max_epochs=1, # !!! DRY RUN! 
+                           #max_epochs=1, # !!! DRY RUN! 
                            use_dropout=params["use-dropout"],
                            use_dropout_lstm=params["use-dropout-lstm"],
                            save_per_epoch=params["save-per-epoch"])
