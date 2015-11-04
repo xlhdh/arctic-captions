@@ -9,7 +9,7 @@ for filename in (trainimages+valimages+testimages):
 	    with open('../coco_cnn4/'+filename+'.mat') as f:
 	        pass
 	except IOError as e:
-		print filename
+		print 'cp', '../coco_cnn4/'+filename, '../../../anbang/matconvnet-1.0-beta16/10701/data/images/'
 		#print filename, filename[21:27], int(filename[21:27]), str(int(filename[21:27]))
 		#urllib.urlretrieve (('http://mscoco.org/images/'+str(int(filename[21:27]))), 'missfiles/'+filename)
 		#print ('http://mscoco.org/images/'+str(int(filename[21:27])))
