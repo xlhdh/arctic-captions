@@ -1,18 +1,14 @@
-import json
-js = open('captions_val2014.json','r').read()
-j1 = json.loads(js)
+trainimages = open('../splits/coco_train.txt','r').read().splitlines()
+valimages = open('../splits/coco_val.txt','r').read().splitlines()
+testimages = open('../splits/coco_test.txt','r').read().splitlines()
 
-ja = j1['annotations']
+import urllib
 
-l = [i['file_name'] for i in ji]
-
-'''
-l.sort()
-
-for x in l:
-    print x
-'''
-
-
-spli = open('../splits/coco_val.txt','r').read().splitlines()
-
+for filename in (trainimages+valimages+testimages):
+	try:
+	    with open('../coco_cnn4/'+filename) as f:
+	        pass
+	except IOError as e:
+		print filename, filename[21:27], int(filename[21:27]), str(int(filename[21:27]))
+		urllib.urlretrieve (('http://mscoco.org/images/'+str(int(filename[21:27]))), 'missfiles/'+filename)
+		print ('http://mscoco.org/images/'+str(int(filename[21:27])))

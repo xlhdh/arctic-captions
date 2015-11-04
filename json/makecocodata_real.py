@@ -1,6 +1,4 @@
 import json
-import pandas as pd
-import numpy as np
 import cPickle
 
 path = "real"
@@ -28,7 +26,7 @@ import scipy, numpy
 for idx, im in enumerate(trainimages):
 	data = loadmat(('../coco_cnn4/'+im), appendmat=True)
 	sp_train.append(data['o24'][0])
-	cap_train.append((jab[int(im[19:25])], idx))
+	cap_train.append((jab[int(im[21:27])], idx))
 	
 feat_train = scipy.sparse.csr_matrix(numpy.asarray(sp_train))
 with open(path+'/coco_align.train.pkl', 'wb') as f:
@@ -39,7 +37,7 @@ with open(path+'/coco_align.train.pkl', 'wb') as f:
 for idx, im in enumerate(valimages):
 	data = loadmat(('../coco_cnn4/'+im), appendmat=True)
 	sp_val.append(data['o24'][0])
-	cap_val.append((jab[int(im[19:25])], idx))
+	cap_val.append((jab[int(im[21:27])], idx))
 	
 feat_val = scipy.sparse.csr_matrix(numpy.asarray(sp_val))
 with open(path+'/coco_align.dev.pkl', 'wb') as f:
@@ -50,7 +48,7 @@ with open(path+'/coco_align.dev.pkl', 'wb') as f:
 for idx, im in enumerate(testimages):
 	data = loadmat(('../coco_cnn4/'+im), appendmat=True)
 	sp_test.append(data['o24'][0])
-	cap_test.append((jab[int(im[19:25])], idx))
+	cap_test.append((jab[int(im[21:27])], idx))
 	
 feat_test = scipy.sparse.csr_matrix(numpy.asarray(sp_test))
 with open(path+'/coco_align.test.pkl', 'wb') as f:
