@@ -8,14 +8,15 @@ ja = json.loads(open('captions_val2014.json','r').read())['annotations']
 jt = json.loads(open('captions_train2014.json','r').read())['annotations']
 #jab = {j['image_id']:j['caption'] for j in ja}
 #jab.update({j['image_id']:j['caption'] for j in jt})
+print "json"
 jab = {}
 for k in (ja+jt):
 	if k['image_id'] in jab:
 		jab[k['image_id']].append(k['caption'])
 	else:
 		jab[k['image_id']] = [k['caption'],]
-
-captions = [j['caption'] for j in ja]+[j['caption'] for j in jt]
+print "jabs"
+#captions = [j['caption'] for j in ja]+[j['caption'] for j in jt]
 
 # Load image splits 
 trainimages = open('../splits/coco_train.txt','r').read().splitlines()
@@ -32,6 +33,7 @@ import scipy, numpy
 ## train.pkl: train
 def maketrain():
 	for idx, im in enumerate(trainimages):
+		print idx, im
 		data = loadmat(('../coco_cnn4/'+im), appendmat=True)
 		sp_train.append(data['o24'][0])
 		for j in jab[int(im[21:27])]:
@@ -45,6 +47,7 @@ def maketrain():
 ## dev.pkl: val
 def makeval():
 	for idx, im in enumerate(valimages):
+		print idx, im
 		data = loadmat(('../coco_cnn4/'+im), appendmat=True)
 		sp_val.append(data['o24'][0])
 		for j in jab[int(im[21:27])]:
@@ -58,6 +61,7 @@ def makeval():
 ## test.pkl: test
 def maketest():
 	for idx, im in enumerate(testimages):
+		print idx, im
 		data = loadmat(('../coco_cnn4/'+im), appendmat=True)
 		sp_test.append(data['o24'][0])
 		for j in jab[int(im[21:27])]:
@@ -89,4 +93,5 @@ def makedict():
 
 
 if __name__ == "__main__":
-	maketrain()
+	print "end reading"
+	maketest()
