@@ -30,7 +30,11 @@ sv = reduce(conc, sp)
 del sp
 
 print 'before dump'
+print sv
 
 with open(path+'/coco_align.train.feat.nd', 'wb') as f:
-	pkl.dump(sv,f,protocol=pkl.HIGHEST_PROTOCOL)
+	pkl.dump(sv.indices,f,protocol=pkl.HIGHEST_PROTOCOL)
+	pkl.dump(sv.indptr,f,protocol=pkl.HIGHEST_PROTOCOL)
+with open(path+'/coco_align.train.feat-data.nd', 'wb') as f:
+	pkl.dump(sv.data,f,protocol=pkl.HIGHEST_PROTOCOL)
 
