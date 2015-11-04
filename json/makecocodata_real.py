@@ -26,7 +26,7 @@ testimages = open('../splits/coco_test.txt','r').read().splitlines()
 # Make caps
 cap_val, cap_train, cap_test = [], [], []
 sp_train, sp_test, sp_val = [], [], []
-captions = []
+#captions = []
 
 from scipy.io import loadmat
 from scipy.sparse import vstack, csr_matrix
