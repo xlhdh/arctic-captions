@@ -26,14 +26,10 @@ from scipy.io import loadmat
 import scipy, numpy
 ## train.pkl: train
 for idx, im in enumerate(trainimages):
-	try: 
-		data = loadmat(('../coco_cnn4/'+im), appendmat=True)
-		sp_train.append(data['o24'][0])
-		cap_train.append((jab[int(im[19:25])], idx))
-	except Exception as e:
-		traceback.print_exc()
-		print "IMAGE NOT FOUND:", im, e
-		pass
+	data = loadmat(('../coco_cnn4/'+im), appendmat=True)
+	sp_train.append(data['o24'][0])
+	cap_train.append((jab[int(im[19:25])], idx))
+	
 feat_train = scipy.sparse.csr_matrix(numpy.asarray(sp_train))
 with open(path+'/coco_align.train.pkl', 'wb') as f:
     cPickle.dump(cap_train, f)
@@ -41,14 +37,10 @@ with open(path+'/coco_align.train.pkl', 'wb') as f:
 
 ## dev.pkl: val
 for idx, im in enumerate(valimages):
-	try: 
-		data = loadmat(('../coco_cnn4/'+im), appendmat=True)
-		sp_val.append(data['o24'][0])
-		cap_val.append((jab[int(im[19:25])], idx))
-	except Exception as e:
-		traceback.print_exc()
-		print "IMAGE NOT FOUND:", im, e
-		pass
+	data = loadmat(('../coco_cnn4/'+im), appendmat=True)
+	sp_val.append(data['o24'][0])
+	cap_val.append((jab[int(im[19:25])], idx))
+	
 feat_val = scipy.sparse.csr_matrix(numpy.asarray(sp_val))
 with open(path+'/coco_align.dev.pkl', 'wb') as f:
     cPickle.dump(cap_val, f)
@@ -56,14 +48,10 @@ with open(path+'/coco_align.dev.pkl', 'wb') as f:
 
 ## test.pkl: test
 for idx, im in enumerate(testimages):
-	try: 
-		data = loadmat(('../coco_cnn4/'+im), appendmat=True)
-		sp_test.append(data['o24'][0])
-		cap_test.append((jab[int(im[19:25])], idx))
-	except Exception as e:
-		traceback.print_exc()
-		print "IMAGE NOT FOUND:", im, e
-		pass
+	data = loadmat(('../coco_cnn4/'+im), appendmat=True)
+	sp_test.append(data['o24'][0])
+	cap_test.append((jab[int(im[19:25])], idx))
+	
 feat_test = scipy.sparse.csr_matrix(numpy.asarray(sp_test))
 with open(path+'/coco_align.test.pkl', 'wb') as f:
     cPickle.dump(cap_test, f)
