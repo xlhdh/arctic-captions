@@ -16,7 +16,7 @@ for k in (ja+jt):
 	else:
 		jab[k['image_id']] = [k['caption'],]
 print "jabs"
-captions = [j['caption'] for j in ja]+[j['caption'] for j in jt]
+#captions = [j['caption'] for j in ja]+[j['caption'] for j in jt]
 
 # Load image splits 
 trainimages = open('../splits/coco_train.txt','r').read().splitlines()
@@ -33,17 +33,20 @@ import scipy, numpy
 ## train.pkl: train
 def maketrain():
 	for idx, im in enumerate(trainimages):
-		print idx, im
+		if (idx % 100) == 0:
+			print idx, im
+		data = loadmat(('../coco_cnn4/'+im), appendmat=True)
+		sp_train.append(data['o24'][0])
+	feat_train = scipy.sparse.csr_matrix(numpy.asarray(sp_train))
+	with open(path+'/coco_align.train.pkl', 'wb') as f:
+	    cPickle.dump(cap_train, f)
+
+	for idx, im in enumerate(trainimages):
+		if (idx % 100) == 0:
+			print idx, im
 		for j in jab[int(im[21:27])]:
 			cap_train.append((j, idx))	
 	f = open(path+'/coco_align.train.pkl', 'wb')
-	cPickle.dump(cap_train, f)
-
-	for idx, im in enumerate(trainimages):
-		print idx, im
-		data = loadmat(('../coco_cnn4/'+im), appendmat=True)
-		sp_train.append(scipy.sparse.csr_matrix(data['o24'][0]))
-	feat_train = scipy.sparse.csr_matrix(numpy.asarray(sp_train))
 	cPickle.dump(feat_train, f)
 	return 0
 
@@ -97,4 +100,4 @@ def makedict():
 
 if __name__ == "__main__":
 	print "end reading"
-	makedict()
+	maketrain()
