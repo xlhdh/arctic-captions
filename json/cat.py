@@ -35,8 +35,8 @@ def maketrain():
 	sp = []
 	for idx, im in enumerate(trainimages):
 		data = loadmat('../coco_cnn4/'+im)
-		sp.append(csr_matrix(numpy.asarray(data['o24'])))
-		if (idx % 10000) == 9999:
+		sp.append(csr_matrix(data['o24']))
+		if (idx % 10000) == 49999:
 			print idx
 			spv = vstack(sp,format='csr')
 			with open(path+'/train'+str(idx+1)+'.nd', 'wb') as f:
