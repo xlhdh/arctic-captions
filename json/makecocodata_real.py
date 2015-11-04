@@ -31,6 +31,7 @@ for idx, im in enumerate(trainimages):
 		sp_train.append(data['o24'][0])
 		cap_train.append((jab[int(im[19:25])], idx))
 	except Exception as e:
+		traceback.print_exc()
 		print "IMAGE NOT FOUND:", im, e
 		pass
 feat_train = scipy.sparse.csr_matrix(numpy.asarray(sp_train))
@@ -45,6 +46,7 @@ for idx, im in enumerate(valimages):
 		sp_val.append(data['o24'][0])
 		cap_val.append((jab[int(im[19:25])], idx))
 	except Exception as e:
+		traceback.print_exc()
 		print "IMAGE NOT FOUND:", im, e
 		pass
 feat_val = scipy.sparse.csr_matrix(numpy.asarray(sp_val))
@@ -59,6 +61,7 @@ for idx, im in enumerate(testimages):
 		sp_test.append(data['o24'][0])
 		cap_test.append((jab[int(im[19:25])], idx))
 	except Exception as e:
+		traceback.print_exc()
 		print "IMAGE NOT FOUND:", im, e
 		pass
 feat_test = scipy.sparse.csr_matrix(numpy.asarray(sp_test))
