@@ -94,4 +94,4 @@ def makedict():
 
 if __name__ == "__main__":
 	print "end reading"
-	maketrain()
+	makedict()
