@@ -27,6 +27,10 @@ testimages = open('../splits/coco_test.txt','r').read().splitlines()
 cap_val, cap_train, cap_test = [], [], []
 sp_train, sp_test, sp_val = [], [], []
 
+from scipy.io import loadmat
+from scipy.sparse import vstack, csr_matrix
+import numpy
+## train.pkl: train
 def maketrain():
 	sp = []
 	for idx, im in enumerate(trainimages):
