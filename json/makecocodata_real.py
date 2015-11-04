@@ -30,58 +30,61 @@ captions = []
 from scipy.io import loadmat
 import scipy, numpy
 ## train.pkl: train
-for idx, im in enumerate(trainimages):
-	data = loadmat(('../coco_cnn4/'+im), appendmat=True)
-	sp_train.append(data['o24'][0])
-	for j in jab[int(im[21:27])]:
-		cap_train.append((j, idx))	
-feat_train = scipy.sparse.csr_matrix(numpy.asarray(sp_train))
-with open(path+'/coco_align.train.pkl', 'wb') as f:
-    cPickle.dump(cap_train, f)
-    cPickle.dump(feat_train, f)
+def maketrain():
+	for idx, im in enumerate(trainimages):
+		data = loadmat(('../coco_cnn4/'+im), appendmat=True)
+		sp_train.append(data['o24'][0])
+		for j in jab[int(im[21:27])]:
+			cap_train.append((j, idx))	
+	feat_train = scipy.sparse.csr_matrix(numpy.asarray(sp_train))
+	with open(path+'/coco_align.train.pkl', 'wb') as f:
+	    cPickle.dump(cap_train, f)
+	    cPickle.dump(feat_train, f)
+	return 0
 
 ## dev.pkl: val
-for idx, im in enumerate(valimages):
-	data = loadmat(('../coco_cnn4/'+im), appendmat=True)
-	sp_val.append(data['o24'][0])
-	for j in jab[int(im[21:27])]:
-		cap_val.append((j, idx))
-feat_val = scipy.sparse.csr_matrix(numpy.asarray(sp_val))
-with open(path+'/coco_align.dev.pkl', 'wb') as f:
-    cPickle.dump(cap_val, f)
-    cPickle.dump(feat_val, f)
+def makeval():
+	for idx, im in enumerate(valimages):
+		data = loadmat(('../coco_cnn4/'+im), appendmat=True)
+		sp_val.append(data['o24'][0])
+		for j in jab[int(im[21:27])]:
+			cap_val.append((j, idx))
+	feat_val = scipy.sparse.csr_matrix(numpy.asarray(sp_val))
+	with open(path+'/coco_align.dev.pkl', 'wb') as f:
+	    cPickle.dump(cap_val, f)
+	    cPickle.dump(feat_val, f)
+	return 0
 
 ## test.pkl: test
-for idx, im in enumerate(testimages):
-	data = loadmat(('../coco_cnn4/'+im), appendmat=True)
-	sp_test.append(data['o24'][0])
-	for j in jab[int(im[21:27])]:
-		cap_test.append((j, idx))
-feat_test = scipy.sparse.csr_matrix(numpy.asarray(sp_test))
-with open(path+'/coco_align.test.pkl', 'wb') as f:
-    cPickle.dump(cap_test, f)
-    cPickle.dump(feat_test, f)
+def maketest():
+	for idx, im in enumerate(testimages):
+		data = loadmat(('../coco_cnn4/'+im), appendmat=True)
+		sp_test.append(data['o24'][0])
+		for j in jab[int(im[21:27])]:
+			cap_test.append((j, idx))
+	feat_test = scipy.sparse.csr_matrix(numpy.asarray(sp_test))
+	with open(path+'/coco_align.test.pkl', 'wb') as f:
+	    cPickle.dump(cap_test, f)
+	    cPickle.dump(feat_test, f)
+	 return 0
 
 
-# Making small dict for test 
-# captions = [i[0] for i in cap_train]+[i[0] for i in cap_test]+[i[0] for i in cap_val]
-### Making dictionary 
-# from nltk import word_tokenize as wt
-caps = []
-# TODO do lower case maybe? 
-for c in captions:
-	caps.extend(c.split())
-dictionary = {x:caps.count(x) for x in caps}
-l = sorted(dictionary, key=lambda x:dictionary[x])
+def makedict():
+	# Making small dict for test 
+	### Making dictionary 
+	caps = []
+	# TODO do lower case maybe? 
+	for c in captions:
+		caps.extend(c.split())
+	dictionary = {x:caps.count(x) for x in caps}
+	l = sorted(dictionary, key=lambda x:dictionary[x])
 
-for idx, itm in enumerate(l):
-	dictionary[itm]=idx+2
+	for idx, itm in enumerate(l):
+		dictionary[itm]=idx+2
 
-with open(path+'/dictionary.pkl', 'wb') as f:
-    cPickle.dump(dictionary, f)
-### End making dictionary 
+	with open(path+'/dictionary.pkl', 'wb') as f:
+	    cPickle.dump(dictionary, f)
+	return 0
+	### End making dictionary 
 
-#import shutil
-#shutil.copy2(path+'/coco_align.dev.pkl', path+'/coco_align.train.pkl')
-#shutil.copy2(path+'/coco_align.dev.pkl', path+'/coco_align.test.pkl')
-
+maketrain()
