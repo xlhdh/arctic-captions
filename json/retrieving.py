@@ -5,10 +5,11 @@ path = 'real'
 
 sp = []
 for i in range(1,9):
-	with open(path+'/train.pkl'+str(i*10000), 'wb') as f:
-		sp.append(pkl.load(f))
+with open(path+'/train.pkl'+str(i*10000), 'rb') as f:
+	print path+'/train.pkl'+str(i*10000)
+	sp.append(pkl.load(f))
 
-with open(path+'/train.pkl82783', 'wb') as f:
+with open(path+'/train.pkl82783', 'rb') as f:
 	sp.append(pkl.load(f))
 
 sp = vstack(sp,format='csr')
