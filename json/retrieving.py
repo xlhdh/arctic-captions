@@ -22,12 +22,12 @@ for i in range(1,9):
 with open(path+'/train82783.nd', 'rb') as f:
 	sp.append(csr_matrix((lo(f),lo(f),lo(f))))
 
-print 'before reduce'
+#print 'before reduce'
 
 sv = reduce(conc, sp)
 del sp
 
-print 'before dump'
+#print 'before dump'
 
 with open(path+'/coco_align.train.feat.nd', 'wb') as f:
 	pkl.dump(sv,f,protocol=pkl.HIGHEST_PROTOCOL)
