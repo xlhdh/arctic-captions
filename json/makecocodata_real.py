@@ -44,7 +44,7 @@ def maketrain():
 		if (idx % 100) == 0:
 			print idx, im
 		data = loadmat(('../coco_cnn4/'+im), appendmat=True)
-		sp_train.append(scipy.sparse.csr_matrix(numpy.asarray(data['o24'][0])))
+		sp_train.append(data['o24'][0])
 	feat_train = scipy.sparse.csr_matrix(numpy.asarray(sp_train))
 	cPickle.dump(feat_train, f)
 	f.close()
