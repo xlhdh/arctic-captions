@@ -42,6 +42,8 @@ def maketrain():
 	cPickle.dump(cap_train, f)
 
 	def myred(x,y):
+		if (x[0] % 100) == 0:
+			print x
 		if y[0] == 1:
 			x = loadmat(('../coco_cnn4/'+x[1]), appendmat=True)
 			x = csr_matrix(numpy.asarray(x['o24']))
