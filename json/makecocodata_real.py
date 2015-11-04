@@ -6,8 +6,15 @@ path = "real"
 # Load captions from MS
 ja = json.loads(open('captions_val2014.json','r').read())['annotations']
 jt = json.loads(open('captions_train2014.json','r').read())['annotations']
-jab = {j['image_id']:j['caption'] for j in ja}
-jab.update({j['image_id']:j['caption'] for j in jt})
+#jab = {j['image_id']:j['caption'] for j in ja}
+#jab.update({j['image_id']:j['caption'] for j in jt})
+jab = {}
+for k in (ja+jt):
+	if k['image_id'] in jab:
+		jab[k['image_id']].append(k['caption'])
+	else:
+		jab[k['image_id']] = [k['caption'],]
+
 captions = [j['caption'] for j in ja]+[j['caption'] for j in jt]
 
 # Load image splits 
@@ -26,8 +33,8 @@ import scipy, numpy
 for idx, im in enumerate(trainimages):
 	data = loadmat(('../coco_cnn4/'+im), appendmat=True)
 	sp_train.append(data['o24'][0])
-	cap_train.append((jab[int(im[21:27])], idx))
-	
+	for j in jab[int(im[21:27])]:
+		cap_train.append((j, idx))	
 feat_train = scipy.sparse.csr_matrix(numpy.asarray(sp_train))
 with open(path+'/coco_align.train.pkl', 'wb') as f:
     cPickle.dump(cap_train, f)
@@ -37,8 +44,8 @@ with open(path+'/coco_align.train.pkl', 'wb') as f:
 for idx, im in enumerate(valimages):
 	data = loadmat(('../coco_cnn4/'+im), appendmat=True)
 	sp_val.append(data['o24'][0])
-	cap_val.append((jab[int(im[21:27])], idx))
-	
+	for j in jab[int(im[21:27])]:
+		cap_val.append((j, idx))
 feat_val = scipy.sparse.csr_matrix(numpy.asarray(sp_val))
 with open(path+'/coco_align.dev.pkl', 'wb') as f:
     cPickle.dump(cap_val, f)
@@ -48,8 +55,8 @@ with open(path+'/coco_align.dev.pkl', 'wb') as f:
 for idx, im in enumerate(testimages):
 	data = loadmat(('../coco_cnn4/'+im), appendmat=True)
 	sp_test.append(data['o24'][0])
-	cap_test.append((jab[int(im[21:27])], idx))
-	
+	for j in jab[int(im[21:27])]:
+		cap_test.append((j, idx))
 feat_test = scipy.sparse.csr_matrix(numpy.asarray(sp_test))
 with open(path+'/coco_align.test.pkl', 'wb') as f:
     cPickle.dump(cap_test, f)
