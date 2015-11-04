@@ -50,7 +50,7 @@ def makeval():
 		print idx, im
 		data = loadmat(('../coco_cnn4/'+im), appendmat=True)
 		sp_val.append(data['o24'][0])
-		for j in jab[int(im[21:27])]:
+		for j in jab[int(im[19:25])]:
 			cap_val.append((j, idx))
 	feat_val = scipy.sparse.csr_matrix(numpy.asarray(sp_val))
 	with open(path+'/coco_align.dev.pkl', 'wb') as f:
@@ -64,7 +64,7 @@ def maketest():
 		print idx, im
 		data = loadmat(('../coco_cnn4/'+im), appendmat=True)
 		sp_test.append(data['o24'][0])
-		for j in jab[int(im[21:27])]:
+		for j in jab[int(im[19:25])]:
 			cap_test.append((j, idx))
 	feat_test = scipy.sparse.csr_matrix(numpy.asarray(sp_test))
 	with open(path+'/coco_align.test.pkl', 'wb') as f:
