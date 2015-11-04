@@ -44,7 +44,7 @@ def maketrain():
 
 	sp = []
 	for idx, im in enumerate(trainimages):
-		data = loadmat('../coco_cnn4/'+x[1])
+		data = loadmat('../coco_cnn4/'+im)
 		sp.append(csr_matrix(numpy.asarray(data['o24'])))
 		if (idx % 10000) == 9999:
 			print idx
