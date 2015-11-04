@@ -27,11 +27,11 @@ import scipy, numpy
 ## train.pkl: train
 for idx, im in enumerate(trainimages):
 	try: 
-		data = loadmat('../coco_cnn4/'+im)
+		data = loadmat(('../coco_cnn4/'+im), appendmat=True)
 		sp_train.append(data['o24'][0])
 		cap_train.append((jab[int(im[19:25])], idx))
-	except Exception:
-		print "IMAGE NOT FOUND:",im
+	except Exception e:
+		print "IMAGE NOT FOUND:",im, str(e)
 		pass
 feat_train = scipy.sparse.csr_matrix(numpy.asarray(sp_train))
 with open(path+'/coco_align.train.pkl', 'wb') as f:
@@ -41,11 +41,11 @@ with open(path+'/coco_align.train.pkl', 'wb') as f:
 ## dev.pkl: val
 for idx, im in enumerate(valimages):
 	try: 
-		data = loadmat('../coco_cnn4/'+im)
+		data = loadmat(('../coco_cnn4/'+im), appendmat=True)
 		sp_val.append(data['o24'][0])
 		cap_val.append((jab[int(im[19:25])], idx))
-	except Exception:
-		print "IMAGE NOT FOUND:",im
+	except Exception e:
+		print "IMAGE NOT FOUND:",im, str(e)
 		pass
 feat_val = scipy.sparse.csr_matrix(numpy.asarray(sp_val))
 with open(path+'/coco_align.dev.pkl', 'wb') as f:
@@ -55,11 +55,11 @@ with open(path+'/coco_align.dev.pkl', 'wb') as f:
 ## test.pkl: test
 for idx, im in enumerate(testimages):
 	try: 
-		data = loadmat('../coco_cnn4/'+im)
+		data = loadmat(('../coco_cnn4/'+im), appendmat=True)
 		sp_test.append(data['o24'][0])
 		cap_test.append((jab[int(im[19:25])], idx))
-	except Exception:
-		print "IMAGE NOT FOUND:",im
+	except Exception e:
+		print "IMAGE NOT FOUND:",im, str(e)
 		pass
 feat_test = scipy.sparse.csr_matrix(numpy.asarray(sp_test))
 with open(path+'/coco_align.test.pkl', 'wb') as f:
