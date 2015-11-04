@@ -38,22 +38,23 @@ def maketrain():
 			print idx, im
 		for j in jab[int(im[21:27])]:
 			cap_train.append((j, idx))	
-	f = open(path+'/coco_align.train.pkl', 'wb') 
-	cPickle.dump(cap_train, f)
+	with open(path+'/coco_align.train.pkl', 'wb') as f:
+		cPickle.dump(cap_train, f)
 
-	def myred(x,y):
-		if (x[0] % 100) == 0:
-			print x
-		if y[0] == 1:
-			x = loadmat(('../coco_cnn4/'+x[1]), appendmat=True)
-			x = csr_matrix(numpy.asarray(x['o24']))
-		y = loadmat(('../coco_cnn4/'+y[1]), appendmat=True)
-		y = csr_matrix(numpy.asarray(y['o24']))
-		return vstack([x,y])
 
-	feat_train = reduce(myred, enumerate(trainimages))
-	cPickle.dump(feat_train, f)
-	f.close()
+	sp = []
+	for idx, im in enumerate(trainimages):
+		data = loadmat('../coco_cnn4/'+x[1])
+		sp.append(csr_matrix(numpy.asarray(data['o24'])))
+		if (idx % 10000) == 9999:
+			print idx
+			with open(path+'/train.pkl'+str(idx+1), 'wb') as f:
+				cPickle.dump(vstack(sp), f)
+			sp = []
+	
+	with open(path+'/train.pkl'+str(idx+1), 'wb') as f:
+	    cPickle.dump(vstack(sp), f)
+
 	#COCO_train2014_000000286899.jpg
 	return 0
 
