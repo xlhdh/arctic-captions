@@ -41,12 +41,13 @@ def maketrain():
 	f = open(path+'/coco_align.train.pkl', 'wb') 
 	cPickle.dump(cap_train, f)
 
-	for idx, im in enumerate(trainimages):
-		if (idx % 100) == 0:
-			print idx, im
-		data = loadmat(('../coco_cnn4/'+im), appendmat=True)
-		sp_train.append(csr_matrix(numpy.asarray(data['o24']))) 	
-	feat_train = vstack(sp_train)
+	def myred(x,y):
+		if y[0] == 1:
+			x = loadmat(('../coco_cnn4/'+x[1]), appendmat=True)['o24']
+		y = loadmat(('../coco_cnn4/'+y[1]), appendmat=True)['o24']
+		return vstack([x,y])
+
+	feat_train = reduce(myred, enumerate(trainimages))
 	cPickle.dump(feat_train, f)
 	f.close()
 	#COCO_train2014_000000286899.jpg
