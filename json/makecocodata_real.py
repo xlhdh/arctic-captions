@@ -46,7 +46,7 @@ def maketrain():
 			x = loadmat(('../coco_cnn4/'+x[1]), appendmat=True)
 			x = csr_matrix(numpy.asarray(x['o24']))
 		y = loadmat(('../coco_cnn4/'+y[1]), appendmat=True)
-		y = csr_matrix(numpy.asarray(y=['o24']))
+		y = csr_matrix(numpy.asarray(y['o24']))
 		return vstack([x,y])
 
 	feat_train = reduce(myred, enumerate(trainimages))
