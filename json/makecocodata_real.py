@@ -66,7 +66,7 @@ def maketest():
 	with open(path+'/coco_align.test.pkl', 'wb') as f:
 	    cPickle.dump(cap_test, f)
 	    cPickle.dump(feat_test, f)
-	 return 0
+	return 0
 
 
 def makedict():
@@ -87,4 +87,6 @@ def makedict():
 	return 0
 	### End making dictionary 
 
-maketrain()
+
+if __name__ == "__main__":
+	maketrain()
