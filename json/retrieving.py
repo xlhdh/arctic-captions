@@ -19,7 +19,7 @@ for i in range(1,9):
 		sp.append(csr_matrix((lo(f),lo(f),lo(f))))
 
 with open(path+'/train82783.nd', 'rb') as f:
-	sp.append(csr_matrix(lo(f),lo(f),lo(f)))
+	sp.append(csr_matrix(l(o(f),lo(f),lo(f))))
 
 sv = reduce(conc, sp)
 del sp
