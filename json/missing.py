@@ -6,7 +6,7 @@ import urllib
 
 for filename in (trainimages+valimages+testimages):
 	try:
-	    with open('../coco_cnn4/'+filename) as f:
+	    with open('../coco_cnn4/'+filename+'.mat') as f:
 	        pass
 	except IOError as e:
 		print filename, filename[21:27], int(filename[21:27]), str(int(filename[21:27]))
