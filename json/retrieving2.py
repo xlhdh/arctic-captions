@@ -6,12 +6,12 @@ from scipy.sparse import csr_matrix
 
 def conc(matrix1, matrix2):
 	print "x"
-    new_data = numpy.concatenate((matrix1.data, matrix2.data))
-    new_indices = numpy.concatenate((matrix1.indices, matrix2.indices))
-    new_ind_ptr = matrix2.indptr + len(matrix1.data)
-    new_ind_ptr = new_ind_ptr[1:]
-    new_ind_ptr = numpy.concatenate((matrix1.indptr, new_ind_ptr))
-    return csr_matrix((new_data, new_indices, new_ind_ptr))
+	new_data = numpy.concatenate((matrix1.data, matrix2.data))
+	new_indices = numpy.concatenate((matrix1.indices, matrix2.indices))
+	new_ind_ptr = matrix2.indptr + len(matrix1.data)
+	new_ind_ptr = new_ind_ptr[1:]
+	new_ind_ptr = numpy.concatenate((matrix1.indptr, new_ind_ptr))
+	return csr_matrix((new_data, new_indices, new_ind_ptr))
 
 path = 'real'
 
