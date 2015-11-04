@@ -35,19 +35,19 @@ def maketrain():
 	for idx, im in enumerate(trainimages):
 		if (idx % 100) == 0:
 			print idx, im
-		data = loadmat(('../coco_cnn4/'+im), appendmat=True)
-		sp_train.append(data['o24'][0])
-	feat_train = scipy.sparse.csr_matrix(numpy.asarray(sp_train))
-	with open(path+'/coco_align.train.pkl', 'wb') as f:
-	    cPickle.dump(cap_train, f)
+		for j in jab[int(im[21:27])]:
+			cap_train.append((j, idx))	
+	f = open(path+'/coco_align.train.pkl', 'wb') 
+	cPickle.dump(cap_train, f)
 
 	for idx, im in enumerate(trainimages):
 		if (idx % 100) == 0:
 			print idx, im
-		for j in jab[int(im[21:27])]:
-			cap_train.append((j, idx))	
-	f = open(path+'/coco_align.train.pkl', 'wb')
+		data = loadmat(('../coco_cnn4/'+im), appendmat=True)
+		sp_train.append(scipy.sparse.csr_matrix(numpy.asarray(data['o24'][0])))
+	feat_train = scipy.sparse.csr_matrix(numpy.asarray(sp_train))
 	cPickle.dump(feat_train, f)
+	f.close()
 	return 0
 
 ## dev.pkl: val
