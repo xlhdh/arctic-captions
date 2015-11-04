@@ -16,7 +16,7 @@ for k in (ja+jt):
 	else:
 		jab[k['image_id']] = [k['caption'],]
 print "jabs"
-#captions = [j['caption'] for j in ja]+[j['caption'] for j in jt]
+captions = [j['caption'] for j in ja]+[j['caption'] for j in jt]
 
 # Load image splits 
 trainimages = open('../splits/coco_train.txt','r').read().splitlines()
@@ -97,4 +97,4 @@ def makedict():
 
 if __name__ == "__main__":
 	print "end reading"
-	maketrain()
+	makedict()
