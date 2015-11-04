@@ -34,14 +34,18 @@ import scipy, numpy
 def maketrain():
 	for idx, im in enumerate(trainimages):
 		print idx, im
-		#data = loadmat(('../coco_cnn4/'+im), appendmat=True)
-		#sp_train.append(data['o24'][0])
 		for j in jab[int(im[21:27])]:
 			cap_train.append((j, idx))	
-	#feat_train = scipy.sparse.csr_matrix(numpy.asarray(sp_train))
 	with open(path+'/coco_align.train.pkl', 'wb') as f:
 	    cPickle.dump(cap_train, f)
-	    #cPickle.dump(feat_train, f)
+
+	for idx, im in enumerate(trainimages):
+		print idx, im
+		data = loadmat(('../coco_cnn4/'+im), appendmat=True)
+		sp_train.append(scipy.sparse.csr_matrix(data['o24'][0]))
+	feat_train = scipy.sparse.csr_matrix(numpy.asarray(sp_train))
+	with open(path+'/coco_align.train.pkl', 'wb') as f:
+	    cPickle.dump(feat_train, f)
 	return 0
 
 ## dev.pkl: val
@@ -94,4 +98,4 @@ def makedict():
 
 if __name__ == "__main__":
 	print "end reading"
-	makedict()
+	maketrain()
