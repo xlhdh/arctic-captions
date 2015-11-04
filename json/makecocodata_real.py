@@ -29,7 +29,8 @@ sp_train, sp_test, sp_val = [], [], []
 captions = []
 
 from scipy.io import loadmat
-import scipy, numpy
+from scipy.sparse import vstack, csr_matrix
+import numpy
 ## train.pkl: train
 def maketrain():
 	for idx, im in enumerate(trainimages):
@@ -44,10 +45,11 @@ def maketrain():
 		if (idx % 100) == 0:
 			print idx, im
 		data = loadmat(('../coco_cnn4/'+im), appendmat=True)
-		sp_train.append(data['o24'][0]) 
-	feat_train = scipy.sparse.csr_matrix(numpy.asarray(sp_train))
+		sp_train.append(csr_matrix(numpy.asarray(data['o24']))) 	
+	feat_train = vstack(sp_train)
 	cPickle.dump(feat_train, f)
 	f.close()
+	#COCO_train2014_000000286899.jpg
 	return 0
 
 ## dev.pkl: val
