@@ -15,7 +15,7 @@ def conc(matrix1, matrix2):
 	return csr_matrix((new_data, new_indices, new_ind_ptr))
 
 def ret80000():
-	path = 'real'
+	path = '/media/haboric/Ubuntu Data/yizhou/arctic-captions/real'
 
 	sp = []
 	for i in range(1,9):
@@ -24,7 +24,6 @@ def ret80000():
 
 	with open(path+'/train82783.nd', 'rb') as f:
 		sp.append(csr_matrix((lo(f),lo(f),lo(f))))
-
 
 	print 'before reduce'
 
