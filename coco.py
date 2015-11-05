@@ -78,7 +78,7 @@ def load_data(load_train=True, load_dev=True, load_test=True, path='./'):
             #train_feat = pkl.load(f)
         import sys
         sys.path.insert(0, '/json')
-        import retrieving2
+        import ret
         train_feat = retrieving2.ret80000()
         train = (train_cap, train_feat)
         print "loaded train"
