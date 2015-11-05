@@ -94,7 +94,11 @@ def makedict():
 	# TODO do lower case maybe? 
 	for c in captions:
 		caps.extend(c.split())
-	dictionary = {x:caps.count(x) for x in caps}
+	#dictionary = {x:caps.count(x) for x in caps}
+	dictionary = {}
+	while len(caps)>0:
+		word  = caps.pop()
+		dictionary[word] = dictionary.setdefault(word,0)+1
 	l = sorted(dictionary, key=lambda x:dictionary[x], reverse=True)
 
 	for idx, itm in enumerate(l):
