@@ -95,7 +95,7 @@ def makedict():
 	for c in captions:
 		caps.extend(c.split())
 	dictionary = {x:caps.count(x) for x in caps}
-	l = sorted(dictionary, key=lambda x:dictionary[x])
+	l = sorted(dictionary, key=lambda x:dictionary[x], reverse=True)
 
 	for idx, itm in enumerate(l):
 		dictionary[itm]=idx+2
@@ -108,4 +108,4 @@ def makedict():
 
 if __name__ == "__main__":
 	print "end reading"
-	maketrain()
+	makedict()
