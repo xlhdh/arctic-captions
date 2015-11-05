@@ -79,7 +79,7 @@ def load_data(load_train=True, load_dev=True, load_test=True, path='./'):
         import sys
         sys.path.insert(0, '/json')
         import ret
-        train_feat = retrieving2.ret80000()
+        train_feat = ret.ret80000()
         train = (train_cap, train_feat)
         print "loaded train"
 
