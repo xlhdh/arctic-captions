@@ -2,6 +2,7 @@ import cPickle as pkl
 from numpy import load as lo
 import numpy
 from scipy.sparse import csr_matrix
+from scipy.io import savemat
 
 
 def conc(matrix1, matrix2):
@@ -29,8 +30,13 @@ print 'before reduce'
 sv = reduce(conc, sp)
 del sp
 
-print 'before dump'
 print sv
+
+a={}
+a['o24']=sv
+
+with open(path+'/coco_align.train.mat', 'wb') as f:
+	savemat('temp',a)
 
 with open(path+'/coco_align.train.feat.nd', 'wb') as f:
 	pkl.dump(sv.indices,f,protocol=pkl.HIGHEST_PROTOCOL)
