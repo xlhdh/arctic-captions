@@ -16,7 +16,7 @@ for k in (ja+jt):
 	else:
 		jab[k['image_id']] = [k['caption'],]
 print "jabs"
-#captions = [j['caption'] for j in ja]+[j['caption'] for j in jt]
+captions = [j['caption'] for j in ja]+[j['caption'] for j in jt]
 
 # Load image splits 
 trainimages = open('../splits/coco_train.txt','r').read().splitlines()
@@ -49,11 +49,11 @@ def maketrain():
 		if (idx % 10000) == 9999:
 			print idx
 			with open(path+'/train.pkl'+str(idx+1), 'wb') as f:
-				cPickle.dump(vstack(sp), f)
+				cPickle.dump(vstack(sp), f, protocol=cPickle.HIGHEST_PROTOCOL)
 			sp = []
 	
 	with open(path+'/train.pkl'+str(idx+1), 'wb') as f:
-	    cPickle.dump(vstack(sp), f)
+	    cPickle.dump(vstack(sp), f, protocol=cPickle.HIGHEST_PROTOCOL)
 
 	#COCO_train2014_000000286899.jpg
 	return 0
@@ -68,8 +68,8 @@ def makeval():
 			cap_val.append((j, idx))
 	feat_val = scipy.sparse.csr_matrix(numpy.asarray(sp_val))
 	with open(path+'/coco_align.dev.pkl', 'wb') as f:
-	    cPickle.dump(cap_val, f)
-	    cPickle.dump(feat_val, f)
+	    cPickle.dump(cap_val, f, protocol=cPickle.HIGHEST_PROTOCOL)
+	    cPickle.dump(feat_val, f, protocol=cPickle.HIGHEST_PROTOCOL)
 	return 0
 
 ## test.pkl: test
@@ -82,8 +82,8 @@ def maketest():
 			cap_test.append((j, idx))
 	feat_test = scipy.sparse.csr_matrix(numpy.asarray(sp_test))
 	with open(path+'/coco_align.test.pkl', 'wb') as f:
-	    cPickle.dump(cap_test, f)
-	    cPickle.dump(feat_test, f)
+	    cPickle.dump(cap_test, f, protocol=cPickle.HIGHEST_PROTOCOL)
+	    cPickle.dump(feat_test, f, protocol=cPickle.HIGHEST_PROTOCOL)
 	return 0
 
 
@@ -101,7 +101,7 @@ def makedict():
 		dictionary[itm]=idx+2
 
 	with open(path+'/dictionary.pkl', 'wb') as f:
-	    cPickle.dump(dictionary, f)
+	    cPickle.dump(dictionary, f, protocol=cPickle.HIGHEST_PROTOCOL)
 	return 0
 	### End making dictionary 
 
