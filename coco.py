@@ -81,6 +81,7 @@ def load_data(load_train=True, load_dev=True, load_test=True, path='./'):
         import retrieving2
         train_feat = retrieving2.ret80000()
         train = (train_cap, train_feat)
+        print "loaded train"
 
     if load_dev:
         with open(path+'coco_align.dev.pkl', 'rb') as f:
