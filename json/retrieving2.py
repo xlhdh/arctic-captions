@@ -15,7 +15,7 @@ def conc(matrix1, matrix2):
 	return csr_matrix((new_data, new_indices, new_ind_ptr))
 
 def ret80000():
-	path = '/media/haboric/Ubuntu Data/yizhou/arctic-captions/real'
+	path = '/media/haboric/Ubuntu Data/yizhou/arctic-captions/json/real'
 
 	sp = []
 	for i in range(1,9):
