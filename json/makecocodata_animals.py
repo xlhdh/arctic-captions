@@ -57,9 +57,9 @@ def maketrain():
 			cap_train.append((j, idx))
 	feat_train = csr_matrix(numpy.asarray(sp_train))
 	with open(path+'/coco_align.train.pkl', 'wb') as f:
-        cPickle.dump(cap_train, f, protocol=cPickle.HIGHEST_PROTOCOL)
-        cPickle.dump(feat_train, f, protocol=cPickle.HIGHEST_PROTOCOL)
-    return 0
+		cPickle.dump(cap_train, f, protocol=cPickle.HIGHEST_PROTOCOL)
+		cPickle.dump(feat_train, f, protocol=cPickle.HIGHEST_PROTOCOL)
+	return 0
 
 
 ## dev.pkl: val
