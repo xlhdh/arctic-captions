@@ -50,15 +50,16 @@ import numpy
 ## train.pkl: train
 def maketrain():
 	for idx, im in enumerate(trainimages):
-		if (idx % 100) == 0:
-			print idx, im
+		print idx, im
+		data = loadmat(('../coco_cnn4/'+im), appendmat=True)
+		sp_train.append(data['o24'][0])
 		for j in jab[int(im[21:27])]:
-			cap_train.append((j, Dict[im]))
-        feat_train = csr_matrix(numpy.asarray(sp_train))
-        with open(path+'/coco_align.train.pkl', 'wb') as f:
-            cPickle.dump(cap_train, f, protocol=cPickle.HIGHEST_PROTOCOL)
-            cPickle.dump(feat_train, f, protocol=cPickle.HIGHEST_PROTOCOL)
-        return 0
+			cap_train.append((j, idx))
+    feat_train = csr_matrix(numpy.asarray(sp_train))
+    with open(path+'/coco_align.train.pkl', 'wb') as f:
+        cPickle.dump(cap_train, f, protocol=cPickle.HIGHEST_PROTOCOL)
+        cPickle.dump(feat_train, f, protocol=cPickle.HIGHEST_PROTOCOL)
+    return 0
 
 
 ## dev.pkl: val
@@ -68,7 +69,7 @@ def makeval():
 		data = loadmat(('../coco_cnn4/'+im), appendmat=True)
 		sp_val.append(data['o24'][0])
 		for j in jab[int(im[19:25])]:
-			cap_val.append((j, Dict[im]))
+			cap_val.append((j, idx))
 	feat_val = csr_matrix(numpy.asarray(sp_val))
 	with open(path+'/coco_align.dev.pkl', 'wb') as f:
 	    cPickle.dump(cap_val, f, protocol=cPickle.HIGHEST_PROTOCOL)
@@ -82,7 +83,7 @@ def maketest():
 		data = loadmat(('../coco_cnn4/'+im), appendmat=True)
 		sp_test.append(data['o24'][0])
 		for j in jab[int(im[19:25])]:
-			cap_test.append((j, Dict[im]))
+			cap_test.append((j, idx))
 	feat_test = csr_matrix(numpy.asarray(sp_test))
 	with open(path+'/coco_align.test.pkl', 'wb') as f:
 	    cPickle.dump(cap_test, f, protocol=cPickle.HIGHEST_PROTOCOL)
