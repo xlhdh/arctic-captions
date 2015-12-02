@@ -18,6 +18,22 @@ for k in (ja+jt):
 print "jabs"
 captions = [j['caption'] for j in ja]+[j['caption'] for j in jt]
 
+
+# path for train images
+dict_trainimages = open('../splits/coco_train.txt','r').read().splitlines()
+
+# path for val images
+dict_valimages = open('../splits/coco_val.txt','r').read().splitlines()
+dict_testimages = open('../splits/coco_test.txt','r').read().splitlines()
+
+dict_images = dict_trainimages + dict_valimages + dict_testimages
+
+dictionary = {}
+
+# in dict_trainimages: 0 - s0, 1 - s1, ...
+for i in range(len(dict_images)):
+	dictionary[dict_images[i]] = i
+
 # Load image splits 
 trainimages = open('../category/animals/animals_train.txt','r').read().splitlines()
 valimages = open('../category/animals/animals_val.txt','r').read().splitlines()
@@ -33,11 +49,11 @@ from scipy.sparse import vstack, csr_matrix
 import numpy
 ## train.pkl: train
 def maketrain():
-	for idx, im in enumerate(trainimages):
+	for _, im in enumerate(trainimages):
 		if (idx % 100) == 0:
 			print idx, im
 		for j in jab[int(im[21:27])]:
-			cap_train.append((j, idx))
+			cap_train.append((j, dictionary[im]))
         feat_train = csr_matrix(numpy.asarray(sp_train))
         with open(path+'/coco_align.train.pkl', 'wb') as f:
             cPickle.dump(cap_train, f, protocol=cPickle.HIGHEST_PROTOCOL)
@@ -47,12 +63,12 @@ def maketrain():
 
 ## dev.pkl: val
 def makeval():
-	for idx, im in enumerate(valimages):
+	for _, im in enumerate(valimages):
 		print idx, im
 		data = loadmat(('../coco_cnn4/'+im), appendmat=True)
 		sp_val.append(data['o24'][0])
 		for j in jab[int(im[19:25])]:
-			cap_val.append((j, idx))
+			cap_val.append((j, dictionary[im]))
 	feat_val = csr_matrix(numpy.asarray(sp_val))
 	with open(path+'/coco_align.dev.pkl', 'wb') as f:
 	    cPickle.dump(cap_val, f, protocol=cPickle.HIGHEST_PROTOCOL)
@@ -61,12 +77,12 @@ def makeval():
 
 ## test.pkl: test
 def maketest():
-	for idx, im in enumerate(testimages):
+	for _, im in enumerate(testimages):
 		print idx, im
 		data = loadmat(('../coco_cnn4/'+im), appendmat=True)
 		sp_test.append(data['o24'][0])
 		for j in jab[int(im[19:25])]:
-			cap_test.append((j, idx))
+			cap_test.append((j, dictionary[im]))
 	feat_test = csr_matrix(numpy.asarray(sp_test))
 	with open(path+'/coco_align.test.pkl', 'wb') as f:
 	    cPickle.dump(cap_test, f, protocol=cPickle.HIGHEST_PROTOCOL)
