@@ -55,8 +55,8 @@ def maketrain():
 		sp_train.append(data['o24'][0])
 		for j in jab[int(im[21:27])]:
 			cap_train.append((j, idx))
-    feat_train = csr_matrix(numpy.asarray(sp_train))
-    with open(path+'/coco_align.train.pkl', 'wb') as f:
+	feat_train = csr_matrix(numpy.asarray(sp_train))
+	with open(path+'/coco_align.train.pkl', 'wb') as f:
         cPickle.dump(cap_train, f, protocol=cPickle.HIGHEST_PROTOCOL)
         cPickle.dump(feat_train, f, protocol=cPickle.HIGHEST_PROTOCOL)
     return 0
