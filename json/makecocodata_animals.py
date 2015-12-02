@@ -19,9 +19,9 @@ print "jabs"
 captions = [j['caption'] for j in ja]+[j['caption'] for j in jt]
 
 # Load image splits 
-trainimages = open('../splits/coco_animals_train.txt','r').read().splitlines()
-valimages = open('../splits/coco_animals_val.txt','r').read().splitlines()
-testimages = open('../splits/coco_animals_test.txt','r').read().splitlines()
+trainimages = open('../category/animals/animals_train.txt','r').read().splitlines()
+valimages = open('../category/animals/animals_val.txt','r').read().splitlines()
+testimages = open('../category/animals/animals_test.txt','r').read().splitlines()
 
 # Make caps
 cap_val, cap_train, cap_test = [], [], []
