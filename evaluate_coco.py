@@ -15,6 +15,7 @@ parser.add_argument("changes",  nargs="*",
 
 def main(params):
     # see documentation in capgen.py for more details on hyperparams
+    print params["reload"]
     _, validerr, _ = train(saveto=params["model"],
                            attn_type=params["attn-type"],
                            reload_=params["reload"],
@@ -79,4 +80,5 @@ if __name__ == "__main__":
     args = parser.parse_args()
     for change in args.changes:
         defaults.update(eval("dict({})".format(change)))
+    print defaults
     main(defaults)
