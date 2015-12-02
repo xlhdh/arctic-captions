@@ -70,6 +70,7 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
     _, valid, test, worddict = load_data(load_train=False, load_dev=True if 'dev' in datasets else False,
                                              load_test=True if 'test' in datasets else False)
 
+    test = test[:50]
     # <eos> means end of sequence (aka periods), UNK means unknown
     word_idict = dict()
     for kk, vv in worddict.iteritems():
