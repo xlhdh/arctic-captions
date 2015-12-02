@@ -1,3 +1,25 @@
 [global]
 floatX = float32
 exception_verbosity = high
+
+
+OMP_NUM_THREADS=1 python theano/misc/check_blas.py -q
+THEANO_FLAGS='device=cpu,openmp=True,floatX=float32' OMP_NUM_THREADS=2 python theano/misc/check_blas.py 
+
+
+
+THEANO_FLAGS='device=gpu,openmp=True,floatX=float32' OMP_NUM_THREADS=2 python /usr/local/lib/python2.7/dist-packages/theano/misc/check_blas.py
+
+THEANO_FLAGS='device=cpu,openmp=True,floatX=float32' OMP_NUM_THREADS=1 python /usr/local/lib/python2.7/dist-packages/theano/misc/check_blas.py -q
+THEANO_FLAGS='device=cpu,openmp=True,floatX=float32' OMP_NUM_THREADS=2 python /usr/local/lib/python2.7/dist-packages/theano/misc/check_blas.py -q
+THEANO_FLAGS='device=cpu,openmp=True,floatX=float32' OMP_NUM_THREADS=4 python /usr/local/lib/python2.7/dist-packages/theano/misc/check_blas.py -q
+THEANO_FLAGS='device=cpu,openmp=True,floatX=float32' OMP_NUM_THREADS=8 python /usr/local/lib/python2.7/dist-packages/theano/misc/check_blas.py -q
+THEANO_FLAGS='device=cpu,openmp=True,floatX=float32' OMP_NUM_THREADS=16 python /usr/local/lib/python2.7/dist-packages/theano/misc/check_blas.py -q
+
+
+
+
+THEANO_FLAGS='device=cpu,openmp=True'
+THEANO_FLAGS='device=cpu,blas.ldflags=-lblas -lgfortran
+THEANO_FLAGS='device=cpu,
+THEANO_FLAGS='device=cpu,
