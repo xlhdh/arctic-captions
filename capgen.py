@@ -1102,7 +1102,6 @@ def train(dim_word=100,  # word vector dimensionality
           save_per_epoch=False): # this saves down the model every epoch
 
     # hyperparam dict
-    print reload_
     model_options = locals().copy()
     model_options = validate_options(model_options)
 
@@ -1111,9 +1110,9 @@ def train(dim_word=100,  # word vector dimensionality
         print "Reloading options"
         with open('%s.pkl'%saveto, 'rb') as f:
             model_options = pkl.load(f)
+    reload_ = True # RELOAD GOT OVERIDE TOO...
 
     print "Using the following parameters:"
-    print reload_
     print  model_options
 
     print 'Loading data'
