@@ -32,7 +32,7 @@ Dict = {}
 
 # in dict_trainimages: 0 - s0, 1 - s1, ...
 for i in range(len(dict_images)):
-	dictionary[dict_images[i]] = i
+	Dict[dict_images[i]] = i
 
 # Load image splits 
 trainimages = open('../category/animals/animals_train.txt','r').read().splitlines()
