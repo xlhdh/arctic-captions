@@ -1,3 +1,4 @@
+*.npz
 *.json
 *.mat
 *.pkl
@@ -60,3 +61,6 @@ docs/_build/
 
 # PyBuilder
 target/
+
+json/real/
+coco_cnn4
