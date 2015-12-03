@@ -28,8 +28,6 @@ dict_testimages = open('../splits/coco_test.txt','r').read().splitlines()
 
 dict_images = dict_trainimages + dict_valimages + dict_testimages
 
-Dict = {}
-
 # in dict_trainimages: 0 - s0, 1 - s1, ...
 for i in range(len(dict_images)):
 	Dict[dict_images[i]] = i

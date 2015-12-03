@@ -87,7 +87,6 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
 
     # index -> words
     def _seqs2words(caps):
-        print 's2w'
         capsw = []
         for cc in caps:
             ww = []
@@ -112,7 +111,6 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
 
     # retrieve caption from process
     def _retrieve_jobs(n_samples):
-        print 'retr'
         caps = [None] * n_samples
         for idx in xrange(n_samples):
             resp = rqueue.get()
