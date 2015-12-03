@@ -8,3 +8,9 @@ python generate_caps.py ../models/full_model_1.npz_bestll.npz neweval -p 8 -d 't
 python generate_caps.py ../models/animal_from_1.npz animal_eval -p 8 -d 'test' 
 
 python metrics.py animal_eval.test.txt animal_evalgold0.test.txt animal_evalgold1.test.txt animal_evalgold2.test.txt animal_evalgold3.test.txt animal_evalgold4.test.txt
+
+
+
+
+python generate_caps.py ../models/animal_from_1.npz_bestll.npz animal_bll -p 8 -d 'test' -pkl_name ../models/animal_from_1.npz 
+python metrics.py animal_bll.test.txt animal_bllgold0.test.txt animal_bllgold1.test.txt animal_bllgold2.test.txt animal_bllgold3.test.txt animal_bllgold4.test.txt
