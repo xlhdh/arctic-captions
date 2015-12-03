@@ -1100,19 +1100,25 @@ def train(dim_word=100,  # word vector dimensionality
           use_dropout_lstm=False,  # dropout on lstm gates
           reload_=False,
           save_per_epoch=False): # this saves down the model every epoch
-
+    
+    print 'reload_:', reload_
     # hyperparam dict
     model_options = locals().copy()
     model_options = validate_options(model_options)
+    print 'reload_:', reload_
 
     # reload options
     if reload_ and os.path.exists(saveto):
         print "Reloading options"
         with open('%s.pkl'%saveto, 'rb') as f:
             model_options = pkl.load(f)
+    print 'reload_:', reload_
+    reload_ = True # RELOAD GOT OVERIDE TOO...
+    print 'reload_:', reload_
 
     print "Using the following parameters:"
     print  model_options
+    print 'reload_:', reload_
 
     print 'Loading data'
     load_data, prepare_data = get_dataset(dataset)
