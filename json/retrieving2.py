@@ -18,12 +18,13 @@ def ret80000():
 	path = '/media/haboric/Ubuntu Data/yizhou/arctic-captions/json/real'
 
 	sp = []
-	for i in range(1,9):
+	#for i in range(1,9):
+	for i in range(1,8):
 		with open(path+'/train'+str(i*10000)+'.nd', 'rb') as f:
 			sp.append(csr_matrix((lo(f),lo(f),lo(f))))
 
-	with open(path+'/train82783.nd', 'rb') as f:
-		sp.append(csr_matrix((lo(f),lo(f),lo(f))))
+	#with open(path+'/train82783.nd', 'rb') as f:
+	#	sp.append(csr_matrix((lo(f),lo(f),lo(f))))
 
 	print 'before reduce'
 

@@ -131,6 +131,17 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
             print 'Finished Generationg DEV'
             with open(saveto+'.dev.txt', 'w') as f:
                 print >>f, '\n'.join(caps)
+
+            sents = []
+            for sen in valid[0]:
+                while len(sents) < sen[1]+1:
+                    sents.append([])
+                sents[sen[1]].append(sen[0].strip())
+            sents2 = zip(*sents)
+            for idd in range(5):
+                with open(saveto+'gold'+str(idd)+'.dev.txt', 'w') as f:
+                    print >>f, '\n'.join(sents2[idd])
+
             print 'Done'
         if dd == 'test':
             print 'Test Set...',
@@ -140,6 +151,17 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
             print 'Finished Generationg TEST'
             with open(saveto+'.test.txt', 'w') as f:
                 print >>f, '\n'.join(caps)
+
+            sents = []
+            for sen in test[0]:
+                while len(sents) < sen[1]+1:
+                    sents.append([])
+                sents[sen[1]].append(sen[0].strip())
+            sents2 = zip(*sents)
+            for idd in range(5):
+                with open(saveto+'gold'+str(idd)+'.test.txt', 'w') as f:
+                    print >>f, '\n'.join(sents2[idd])
+
             print 'Done'
     # end processes
     for midx in xrange(n_process):
