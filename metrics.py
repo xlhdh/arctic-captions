@@ -26,7 +26,6 @@ def load_textfiles(references, hypothesis):
     hypo = {idx: [lines.strip()] for (idx, lines) in enumerate(hypothesis)}
     # take out newlines before creating dictionary
     raw_refs = [map(str.strip, r) for r in zip(*references)]
-    print raw_refs[0]
     refs = {idx: rr for idx, rr in enumerate(raw_refs)}
     # sanity check that we have the same number of references as hypothesis
     print len(hypo), len(refs)
