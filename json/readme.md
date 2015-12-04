@@ -17,6 +17,9 @@ python metrics.py ROOMA.test.txt ROOMAgold1.test.txt ROOMAgold2.test.txt ROOMAgo
 python generate_caps.py ../models/full_model_1.npz_bestll.npz ROOMA -p 6 -d 'test' -pkl_name ../models/full_model_1.npz
 python metrics.py ROOMA.test.txt ROOMAgold1.test.txt ROOMAgold2.test.txt ROOMAgold3.test.txt ROOMAgold4.test.txt
 
+python generate_caps.py ../models/ROOMB.npz ROOMB -p 6 -d 'test' 
+python metrics.py ROOMB.test.txt ROOMAgold1.test.txt ROOMAgold2.test.txt ROOMAgold3.test.txt ROOMAgold4.test.txt
+
 
 
 python generate_caps.py ../models/animal_from_1.npz_bestll.npz animal_bll -p 8 -d 'test' -pkl_name ../models/animal_from_1.npz 
