@@ -1,5 +1,6 @@
 # Train Models
-## Train ROOM model
+
+## Train models for ROOM
 ### train models for ROOMA
 THEANORC=theanorc-gpu.rc nohup python evaluate_coco.py "[['model', '../models/ROOMA.npz'], ['reload', True], ['save-per-epoch', True]]"
 
@@ -9,10 +10,19 @@ THEANORC=theanorc-gpu.rc nohup python evaluate_coco.py "[['model', '../models/RO
 ### train models for ROOMC
 THEANORC=theanorc-gpu.rc nohup python evaluate_coco.py "[['model', '../models/ROOMC.npz'], ['reload', True], ['save-per-epoch', True]]"
 
-### train models for animal
-THEANORC=theanorc-gpu.rc nohup python evaluate_coco.py "[['model', '../models/ROOMB.npz'], ['reload', True]]"
+## Train models for animal
+### train models for animala
+THEANORC=theanorc-gpu.rc nohup python evaluate_coco.py "[['model', '../models/animala.npz'], ['reload', True], ['save-per-epoch', True]]"
+
+### train models for animalb
+THEANORC=theanorc-gpu.rc nohup python evaluate_coco.py "[['model', '../models/animalb.npz'], ['reload', True], ['save-per-epoch', True]]"
+
+### train models for animalc
+THEANORC=theanorc-gpu.rc nohup python evaluate_coco.py "[['model', '../models/animalc.npz'], ['reload', True], ['save-per-epoch', True]]"
 
 ### other training commands
+THEANORC=theanorc-gpu.rc nohup python evaluate_coco.py "[['model', '../models/ROOMB.npz'], ['reload', True]]"
+
 THEANORC=theanorc-gpu.rc nohup python evaluate_coco.py "[['model', 'full_model_2_stoch.npz'], ['attn_type', 'stochastic']]"
 
 
