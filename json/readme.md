@@ -1,4 +1,4 @@
-// Train Models
+## Train Models
 # train models for ROOMA
 THEANORC=theanorc-gpu.rc nohup python evaluate_coco.py "[['model', '../models/ROOMA.npz'], ['reload', True], ['save-per-epoch', True]]"
 
