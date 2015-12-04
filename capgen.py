@@ -826,7 +826,7 @@ def build_sampler(tparams, options, use_noise, trng, sampling=True):
     return f_init, f_next
 
 
-def gen_sample_ensemble(tparams, f_init, f_next, ctx0, options,
+def gen_sample_ensemble(tparams_list, f_init_list, f_next_list, ctx0, options,
                trng=None, k=1, maxlen=30, stochastic=False):
     """Generate captions with beam search.
     
@@ -884,24 +884,45 @@ def gen_sample_ensemble(tparams, f_init, f_next, ctx0, options,
     # only matters if we use lstm encoder
     rval = f_init(ctx0)
     ctx0 = rval[0]
-    next_state = []
-    next_memory = []
-    # the states are returned as a: (dim,) and this is just a reshape to (1, dim)
-    for lidx in xrange(options['n_layers_lstm']):
-        next_state.append(rval[1+lidx])
-        next_state[-1] = next_state[-1].reshape([1, next_state[-1].shape[0]])
-    for lidx in xrange(options['n_layers_lstm']):
-        next_memory.append(rval[1+options['n_layers_lstm']+lidx])
-        next_memory[-1] = next_memory[-1].reshape([1, next_memory[-1].shape[0]])
+
+
+    next_state_list = []
+    next_memory_list = []
+    for m_id in xrange(tparams_list):
+        next_state = []
+        next_memory = []
+        # the states are returned as a: (dim,) and this is just a reshape to (1, dim)
+        for lidx in xrange(options['n_layers_lstm']):
+            next_state.append(rval[1+lidx])
+            next_state[-1] = next_state[-1].reshape([1, next_state[-1].shape[0]])
+        for lidx in xrange(options['n_layers_lstm']):
+            next_memory.append(rval[1+options['n_layers_lstm']+lidx])
+            next_memory[-1] = next_memory[-1].reshape([1, next_memory[-1].shape[0]])
+
+        next_state_list.append(next_state)
+        next_memory_list.append(next_memory)
+
+            
+
     # reminder: if next_w = -1, the switch statement
     # in build_sampler is triggered -> (empty word embeddings)  
+
     next_w = -1 * numpy.ones((1,)).astype('int64')
+    initial = True
 
     for ii in xrange(maxlen):
+
+        for m_id in xrange(tparams_list):
+            rval = f_next(*([next_w, ctx0]+next_state_list[m_id]+next_memory_list[m_id]))
+            if initial:
+                next_p_avg = rval[0]
+            else:
+                next_p_avg = next_p_avg + rval[0]
+
         # our "next" state/memory in our previous step is now our "initial" state and memory
-        rval = f_next(*([next_w, ctx0]+next_state+next_memory))
-        next_p = rval[0]
-        next_w = rval[1]
+        #rval = f_next(*([next_w, ctx0]+next_state+next_memory))
+        #next_p = rval[0]
+        #next_w = rval[1]
 
         # extract all the states and memories
         next_state = []

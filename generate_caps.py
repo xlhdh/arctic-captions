@@ -7,7 +7,7 @@ import argparse
 import numpy
 import cPickle as pkl
 
-from capgen import build_sampler, gen_sample, \
+from capgen import build_sampler, gen_sample, gen_sample_ensemble \
                    load_params, \
                    init_params, \
                    init_tparams, \
@@ -49,7 +49,7 @@ def gen_model(queue, rqueue, pid, model, options, k, normalize, word_idict, samp
     #f_init, f_next = build_sampler(tparams, options, use_noise, trng, sampling=sampling)
 
     def _gencap(cc0):
-        sample, score = gen_sample(tparams_list, f_init_list, f_next_list, cc0, options,
+        sample, score = gen_sample_ensemble(tparams_list, f_init_list, f_next_list, cc0, options,
                                    trng=trng, k=k, maxlen=200, stochastic=False)
 
         #sample, score = gen_sample(tparams, f_init, f_next, cc0, options,
@@ -195,8 +195,7 @@ if __name__ == "__main__":
     parser.add_argument('-pkl_name', type=str, default=None, help="name of pickle file (without the .pkl)")
     #parser.add_argument('model', type=str)
     parser.add_argument('saveto', type=str)
-    parser.add_argument('model', type=argparse.FileType('r'), nargs="+",
-                help="Path to all the reference files")
+    parser.add_argument('model', type=argparse.FileType('r'), nargs="+", help="Path to all the reference files")
 
 
     args = parser.parse_args()
