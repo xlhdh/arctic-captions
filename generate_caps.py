@@ -195,7 +195,7 @@ if __name__ == "__main__":
     parser.add_argument('-pkl_name', type=str, default=None, help="name of pickle file (without the .pkl)")
     #parser.add_argument('model', type=str)
     parser.add_argument('saveto', type=str)
-    parser.add_argument('model', type=argparse.FileType('r'), nargs="+", help="Path to all the reference files")
+    parser.add_argument('model', type=str, nargs="+", help="Path to all the reference files")
 
 
     args = parser.parse_args()
