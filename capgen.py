@@ -886,7 +886,7 @@ def gen_sample_ensemble(tparams_list, f_init_list, f_next_list, ctx0, options,
     ctx0_list = []
 
     for m_id in xrange(len(tparams_list)):
-        rval = f_init[m_id](ctx0)
+        rval = f_init_list[m_id](ctx0)
         ctx0_list[m_id] = rval[0]
 
     #rval = f_init(ctx0)
