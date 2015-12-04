@@ -869,9 +869,9 @@ def gen_sample_ensemble(tparams_list, f_init_list, f_next_list, ctx0, options,
         assert not stochastic, 'Beam search does not support stochastic sampling'
 
     sample = []
-    sample_score = []
-    if stochastic:
-        sample_score = 0
+    #sample_score = []
+    #if stochastic:
+    sample_score = 0
 
     live_k = 1
     dead_k = 0
@@ -953,7 +953,7 @@ def gen_sample_ensemble(tparams_list, f_init_list, f_next_list, ctx0, options,
 
         #if stochastic:
         sample.append(next_w[0]) # if we are using stochastic sampling this easy
-        sample_score += next_p_avg[next_w[0]]
+        sample_score += next_p_avg[ 0, next_w[0]]
         if next_w[0] == 0:
             break
     #     else:
