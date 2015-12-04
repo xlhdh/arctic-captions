@@ -888,7 +888,7 @@ def gen_sample_ensemble(tparams_list, f_init_list, f_next_list, ctx0, options,
 
     next_state_list = []
     next_memory_list = []
-    for m_id in xrange(tparams_list):
+    for m_id in xrange(len(tparams_list)):
         next_state = []
         next_memory = []
         # the states are returned as a: (dim,) and this is just a reshape to (1, dim)
@@ -912,8 +912,14 @@ def gen_sample_ensemble(tparams_list, f_init_list, f_next_list, ctx0, options,
 
     for ii in xrange(maxlen):
 
-        for m_id in xrange(tparams_list):
+        for m_id in xrange(len(tparams_list)):
             rval = f_next(*([next_w, ctx0]+next_state_list[m_id]+next_memory_list[m_id]))
+            next_state = []
+            next_memory = []
+            for lidx in xrange(options['n_layers_lstm']):
+                next_state_list[m_id].append(rval[2+lidx])
+                next_memory_list[m_id].append(rval[2+options['n_layers_lstm']+lidx])
+
             if initial:
                 next_p_avg = rval[0]
             else:
@@ -928,11 +934,11 @@ def gen_sample_ensemble(tparams_list, f_init_list, f_next_list, ctx0, options,
         #next_w = rval[1]
 
         # extract all the states and memories
-        next_state = []
-        next_memory = []
-        for lidx in xrange(options['n_layers_lstm']):
-            next_state.append(rval[2+lidx])
-            next_memory.append(rval[2+options['n_layers_lstm']+lidx])
+        # next_state = []
+        # next_memory = []
+        # for lidx in xrange(options['n_layers_lstm']):
+        #     next_state.append(rval[2+lidx])
+        #     next_memory.append(rval[2+options['n_layers_lstm']+lidx])
 
         if stochastic:
             sample.append(next_w[0]) # if we are using stochastic sampling this easy
@@ -953,33 +959,52 @@ def gen_sample_ensemble(tparams_list, f_init_list, f_next_list, ctx0, options,
             # a bunch of lists to hold future hypothesis
             new_hyp_samples = []
             new_hyp_scores = numpy.zeros(k-dead_k).astype('float32')
-            new_hyp_states = []
-            for lidx in xrange(options['n_layers_lstm']):
-                new_hyp_states.append([])
-            new_hyp_memories = []
-            for lidx in xrange(options['n_layers_lstm']):
-                new_hyp_memories.append([])
 
+            new_hyp_states_list = []
+            new_hyp_memories_list = []
+
+            for m_id in xrange(len(tparams_list)):
+                new_hyp_states = []
+                for lidx in xrange(options['n_layers_lstm']):
+                    new_hyp_states.append([])
+                new_hyp_memories = []
+                for lidx in xrange(options['n_layers_lstm']):
+                    new_hyp_memories.append([])
+                new_hyp_states_list.append(new_hyp_states)
+                new_hyp_memories_list.append(new_hyp_memories)
+
+            
             # get the corresponding hypothesis and append the predicted word
             for idx, [ti, wi] in enumerate(zip(trans_indices, word_indices)):
                 new_hyp_samples.append(hyp_samples[ti]+[wi])
                 new_hyp_scores[idx] = copy.copy(costs[idx]) # copy in the cost of that hypothesis 
-                for lidx in xrange(options['n_layers_lstm']):
-                    new_hyp_states[lidx].append(copy.copy(next_state[lidx][ti]))
-                for lidx in xrange(options['n_layers_lstm']):
-                    new_hyp_memories[lidx].append(copy.copy(next_memory[lidx][ti]))
+                for m_id in xrange(len(tparams_list)):
+                    for lidx in xrange(options['n_layers_lstm']):
+                        new_hyp_states[m_id][lidx].append(copy.copy(next_state[m_id][lidx][ti]))
+                    for lidx in xrange(options['n_layers_lstm']):
+                        new_hyp_memories[m_id][lidx].append(copy.copy(next_memory[m_id][lidx][ti]))
 
             # check the finished samples for <eos> character
+
+            hyp_states_list = []
+            hyp_memories_list = []
+
             new_live_k = 0
             hyp_samples = []
             hyp_scores = []
-            hyp_states = []
-            for lidx in xrange(options['n_layers_lstm']):
-                hyp_states.append([])
-            hyp_memories = []
-            for lidx in xrange(options['n_layers_lstm']):
-                hyp_memories.append([])
+            
 
+            for m_id in xrange(len(tparams_list)):
+                hyp_states = []
+                for lidx in xrange(options['n_layers_lstm']):
+                    hyp_states.append([])
+                hyp_memories = []
+                for lidx in xrange(options['n_layers_lstm']):
+                    hyp_memories.append([])
+                hyp_states_list.append(hyp_states)
+                hyp_memories_list.append(hyp_memories)
+
+            
             for idx in xrange(len(new_hyp_samples)):
                 if new_hyp_samples[idx][-1] == 0:
                     sample.append(new_hyp_samples[idx])
@@ -989,10 +1014,13 @@ def gen_sample_ensemble(tparams_list, f_init_list, f_next_list, ctx0, options,
                     new_live_k += 1 # collect collect correct states/memories
                     hyp_samples.append(new_hyp_samples[idx])
                     hyp_scores.append(new_hyp_scores[idx])
-                    for lidx in xrange(options['n_layers_lstm']):
-                        hyp_states[lidx].append(new_hyp_states[lidx][idx])
-                    for lidx in xrange(options['n_layers_lstm']):
-                        hyp_memories[lidx].append(new_hyp_memories[lidx][idx])
+
+                    for m_id in xrange(len(tparams_list)):
+                        for lidx in xrange(options['n_layers_lstm']):
+                            hyp_states_list[m_id][lidx].append(new_hyp_states[m_id][lidx][idx])
+                        for lidx in xrange(options['n_layers_lstm']):
+                            hyp_memories_list[m_id][lidx].append(new_hyp_memories[m_id][lidx][idx])
+
             hyp_scores = numpy.array(hyp_scores)
             live_k = new_live_k
 
@@ -1002,12 +1030,16 @@ def gen_sample_ensemble(tparams_list, f_init_list, f_next_list, ctx0, options,
                 break
 
             next_w = numpy.array([w[-1] for w in hyp_samples])
-            next_state = []
-            for lidx in xrange(options['n_layers_lstm']):
-                next_state.append(numpy.array(hyp_states[lidx]))
-            next_memory = []
-            for lidx in xrange(options['n_layers_lstm']):
-                next_memory.append(numpy.array(hyp_memories[lidx]))
+
+            for m_id in xrange(len(tparams_list)):
+                next_state = []
+                for lidx in xrange(options['n_layers_lstm']):
+                    next_state.append(numpy.array(hyp_states_list[m_id][lidx]))
+                next_memory = []
+                for lidx in xrange(options['n_layers_lstm']):
+                    next_memory.append(numpy.array(hyp_memories_list[m_id][lidx]))
+                next_state_list[m_id] = next_state
+                next_memory_list[m_id] = next_memory
 
     if not stochastic:
         # dump every remaining one
