@@ -952,15 +952,15 @@ def gen_sample_ensemble(tparams_list, f_init_list, f_next_list, ctx0, options,
 
         if stochastic:
             sample.append(next_w[0]) # if we are using stochastic sampling this easy
-            sample_score += next_p[0,next_w[0]]
+            sample_score += next_p_avg[0,next_w[0]]
             if next_w[0] == 0:
                 break
         else:
-            cand_scores = hyp_scores[:,None] - numpy.log(next_p) 
+            cand_scores = hyp_scores[:,None] - numpy.log(next_p_avg) 
             cand_flat = cand_scores.flatten()
             ranks_flat = cand_flat.argsort()[:(k-dead_k)] # (k-dead_k) numpy array of with min nll
 
-            voc_size = next_p.shape[1]
+            voc_size = next_p_avg.shape[1]
             # indexing into the correct selected captions
             trans_indices = ranks_flat / voc_size
             word_indices = ranks_flat % voc_size
