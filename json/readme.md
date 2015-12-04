@@ -21,7 +21,7 @@ python generate_caps.py ../models/full_model_1.npz_bestll.npz neweval -p 8 -d 't
 
 python generate_caps.py ../models/animal_from_1.npz animal_eval -p 8 -d 'test' 
 
-python metrics.py animal_eval.test.txt animal_evalgold0.test.txt animal_evalgold1.test.txt animal_evalgold2.test.txt\\ animal_evalgold3.test.txt animal_evalgold4.test.txt
+python metrics.py animal_eval.test.txt animal_evalgold0.test.txt animal_evalgold1.test.txt animal_evalgold2.test.txt animal_evalgold3.test.txt animal_evalgold4.test.txt
 
 
 python generate_caps.py ../models/full_model_1.npz ROOMA -p 6 -d 'test' 
@@ -32,7 +32,7 @@ python generate_caps.py ../models/full_model_1.npz_bestll.npz ROOMA -p 6 -d 'tes
 python metrics.py ROOMA.test.txt ROOMgold1.test.txt ROOMgold2.test.txt ROOMgold3.test.txt ROOMgold4.test.txt
 
 ## test finetuned ROOMA
-python generate_caps.py ../models/ROOMA.npz ROOMA -p 6 -d 'test' 
+python generate_caps.py ../models/ROOMA.npz ROOMA -p 6 -d 'test' \
 python metrics.py ROOMA.test.txt ROOMgold1.test.txt ROOMgold2.test.txt ROOMgold3.test.txt ROOMgold4.test.txt
 
 ## test finetuned ROOMB
