@@ -110,7 +110,6 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
                 if w == 0:
                     break
                 ww.append(word_idict[w])
-            print ww
             capsw.append(' '.join(ww))
         return capsw
 
