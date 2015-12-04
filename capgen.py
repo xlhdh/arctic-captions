@@ -938,7 +938,7 @@ def gen_sample_ensemble(tparams_list, f_init_list, f_next_list, ctx0, options,
 
         next_p_avg = next_p_avg / numpy.linalg.norm(next_p_avg)
         next_nw = trng.multinomial(pvals=next_p_avg).argmax(1)
-        next_w = numpy.array([next_nw]).astype('int64') 
+        next_w = next_nw * numpy.ones((1,)).astype('int64')
 
         # our "next" state/memory in our previous step is now our "initial" state and memory
         #rval = f_next(*([next_w, ctx0]+next_state+next_memory))
