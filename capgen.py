@@ -938,7 +938,7 @@ def gen_sample_ensemble(tparams_list, f_init_list, f_next_list, ctx0, options,
 
         next_p_avg = next_p_avg / numpy.linalg.norm(next_p_avg)
         next_nw = trng.multinomial(pvals=next_p_avg).argmax(1)
-        next_w = next_nw * numpy.ones((1,)).astype('int64')
+        #next_w = next_nw * numpy.ones((1,)).astype('int64')
 
         # our "next" state/memory in our previous step is now our "initial" state and memory
         #rval = f_next(*([next_w, ctx0]+next_state+next_memory))
@@ -953,9 +953,9 @@ def gen_sample_ensemble(tparams_list, f_init_list, f_next_list, ctx0, options,
         #     next_memory.append(rval[2+options['n_layers_lstm']+lidx])
 
         #if stochastic:
-        sample.append(next_w[0])# if we are using stochastic sampling this easy
+        sample.append(next_nw)# if we are using stochastic sampling this easy
         sample_score += 1
-        if next_w[0] == 0:
+        if next_nw == 0:
             break
     #     else:
     #         cand_scores = hyp_scores[:,None] - numpy.log(next_p_avg) 
