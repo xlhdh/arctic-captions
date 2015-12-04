@@ -926,8 +926,8 @@ def gen_sample_ensemble(tparams_list, f_init_list, f_next_list, ctx0, options,
             for lidx in xrange(options['n_layers_lstm']):
                 next_state.append(rval[2+lidx])
                 next_memory.append(rval[2+options['n_layers_lstm']+lidx])
-            next_state_list[m_id].append(next_state)
-            next_memory_list[m_id].append(next_memory)
+            next_state_list[m_id] = next_state
+            next_memory_list[m_id] = next_memory
 
 
             if initial:
