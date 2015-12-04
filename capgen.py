@@ -990,9 +990,9 @@ def gen_sample_ensemble(tparams_list, f_init_list, f_next_list, ctx0, options,
                 new_hyp_scores[idx] = copy.copy(costs[idx]) # copy in the cost of that hypothesis 
                 for m_id in xrange(len(tparams_list)):
                     for lidx in xrange(options['n_layers_lstm']):
-                        new_hyp_states_list[m_id][lidx].append(copy.copy(next_state[m_id][lidx][ti]))
+                        new_hyp_states_list[m_id][lidx].append(copy.copy(next_state_list[m_id][lidx][ti]))
                     for lidx in xrange(options['n_layers_lstm']):
-                        new_hyp_memories_list[m_id][lidx].append(copy.copy(next_memory[m_id][lidx][ti]))
+                        new_hyp_memories_list[m_id][lidx].append(copy.copy(next_memory_list[m_id][lidx][ti]))
 
             # check the finished samples for <eos> character
 
