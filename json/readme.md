@@ -1,6 +1,18 @@
-# train models
+// Train Models
+# train models for ROOMA
+THEANORC=theanorc-gpu.rc nohup python evaluate_coco.py "[['model', '../models/ROOMA.npz'], ['reload', True], ['save-per-epoch', True]]"
+
+# train models for ROOMB
+THEANORC=theanorc-gpu.rc nohup python evaluate_coco.py "[['model', '../models/ROOMB.npz'], ['reload', True], ['save-per-epoch', True]]"
+
+# train models for ROOMC
+THEANORC=theanorc-gpu.rc nohup python evaluate_coco.py "[['model', '../models/ROOMC.npz'], ['reload', True], ['save-per-epoch', True]]"
+
+# train models for 
 THEANORC=theanorc-gpu.rc nohup python evaluate_coco.py "[['model', '../models/ROOMB.npz'], ['reload', True]]"
 THEANORC=theanorc-gpu.rc nohup python evaluate_coco.py "[['model', 'full_model_2_stoch.npz'], ['attn_type', 'stochastic']]"
+
+
 
 
 python generate_caps.py ../models/full_model_1.npz_bestll.npz neweval -p 8 -d 'test' -pkl_name ../models/full_model_1.npz
