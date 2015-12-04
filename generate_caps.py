@@ -7,7 +7,7 @@ import argparse
 import numpy
 import cPickle as pkl
 
-from capgen import build_sampler, gen_sample, gen_sample_ensemble \
+from capgen import build_sampler, gen_sample, gen_sample_ensemble, \
                    load_params, \
                    init_params, \
                    init_tparams, \
