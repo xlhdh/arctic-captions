@@ -953,7 +953,7 @@ def gen_sample_ensemble(tparams_list, f_init_list, f_next_list, ctx0, options,
         #     next_memory.append(rval[2+options['n_layers_lstm']+lidx])
 
         #if stochastic:
-        sample.append(next_w[0]) # if we are using stochastic sampling this easy
+        sample.append(next_w[0]).astype('int64') # if we are using stochastic sampling this easy
         sample_score += 1
         if next_w[0] == 0:
             break
