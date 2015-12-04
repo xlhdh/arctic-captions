@@ -76,7 +76,7 @@ def gen_model(queue, rqueue, pid, model, options, k, normalize, word_idict, samp
 def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datasets='dev,test', sampling=False, pkl_name=None):
     # load model model_options
     if pkl_name is None:
-        pkl_name = model
+        pkl_name = model[0]
     with open('%s.pkl'% pkl_name, 'rb') as f:
         options = pkl.load(f)
 
