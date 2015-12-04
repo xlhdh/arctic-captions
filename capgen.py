@@ -882,8 +882,15 @@ def gen_sample_ensemble(tparams_list, f_init_list, f_next_list, ctx0, options,
     hyp_memories = []
 
     # only matters if we use lstm encoder
-    rval = f_init(ctx0)
-    ctx0 = rval[0]
+    
+    ctx0_list = []
+
+    for m_id in xrange(len(tparams_list)):
+        rval = f_init[m_id](ctx0)
+        ctx0_list[m_id] = rval[0]
+
+    #rval = f_init(ctx0)
+    #ctx0 = rval[0]
 
 
     next_state_list = []
@@ -913,7 +920,7 @@ def gen_sample_ensemble(tparams_list, f_init_list, f_next_list, ctx0, options,
     for ii in xrange(maxlen):
 
         for m_id in xrange(len(tparams_list)):
-            rval = f_next(*([next_w, ctx0]+next_state_list[m_id]+next_memory_list[m_id]))
+            rval = f_next_list[m_id](*([next_w, ctx0_list[m_id]]+next_state_list[m_id]+next_memory_list[m_id]))
             next_state = []
             next_memory = []
             for lidx in xrange(options['n_layers_lstm']):
