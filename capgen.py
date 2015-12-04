@@ -932,6 +932,7 @@ def gen_sample_ensemble(tparams_list, f_init_list, f_next_list, ctx0, options,
 
             if initial:
                 next_p_avg = rval[0]
+                initial = False
             else:
                 next_p_avg = next_p_avg + rval[0]
 
