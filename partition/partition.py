@@ -38,6 +38,7 @@ def filterDataSet(wordSet, file_path, output_name, splits, image_prefix, noise =
             continue
 
         if any(word in aSplit for word in wordSet):
+            print a['caption']
             imageSet.add(imageName)
         else:
             noiseSet.add(imageName)
@@ -52,7 +53,7 @@ def filterDataSet(wordSet, file_path, output_name, splits, image_prefix, noise =
     imageNum = len(imageList)
 
     with open(output_name, 'w+') as f:
-         for x in imageList:
+         for x in imageList[ : int(imageNum/6)]:
              f.write(x)
 
     # with open(catagory + '_train.txt', 'w+') as f:

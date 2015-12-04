@@ -7,7 +7,7 @@ import argparse
 import numpy
 import cPickle as pkl
 
-from capgen import build_sampler, gen_sample, \
+from capgen import build_sampler, gen_sample, gen_sample_ensemble \
                    load_params, \
                    init_params, \
                    init_tparams, \
@@ -27,17 +27,33 @@ def gen_model(queue, rqueue, pid, model, options, k, normalize, word_idict, samp
     use_noise = theano.shared(numpy.float32(0.), name='use_noise')
 
     # get the parameters
-    params = init_params(options)
-    params = load_params(model, params)
-    tparams = init_tparams(params)
+    #params = init_params(options)
+    #params = load_params(model, params)
+    #tparams = init_tparams(params)
+
+
+    tparams_list = []
+    f_init_list = []
+    f_next_list = []
+
+    for m in model:
+        params = init_params(options)
+        params = load_params(m, params)
+        tparams_list.append( init_tparams(params) )
+        f_init, f_next = build_sampler(tparams_list[-1], options, use_noise, trng, sampling=sampling)
+        f_init_list.append( f_init )
+        f_next_list.append( f_next )
 
     # build the sampling computational graph
     # see capgen.py for more detailed explanations
-    f_init, f_next = build_sampler(tparams, options, use_noise, trng, sampling=sampling)
+    #f_init, f_next = build_sampler(tparams, options, use_noise, trng, sampling=sampling)
 
     def _gencap(cc0):
-        sample, score = gen_sample(tparams, f_init, f_next, cc0, options,
+        sample, score = gen_sample_ensemble(tparams_list, f_init_list, f_next_list, cc0, options,
                                    trng=trng, k=k, maxlen=200, stochastic=False)
+
+        #sample, score = gen_sample(tparams, f_init, f_next, cc0, options,
+        #                           trng=trng, k=k, maxlen=200, stochastic=False)
         # adjust for length bias
         if normalize:
             lengths = numpy.array([len(s) for s in sample])
@@ -177,8 +193,10 @@ if __name__ == "__main__":
     parser.add_argument('-z', action="store_true", default=False)
     parser.add_argument('-d', type=str, default='dev,test')
     parser.add_argument('-pkl_name', type=str, default=None, help="name of pickle file (without the .pkl)")
-    parser.add_argument('model', type=str)
+    #parser.add_argument('model', type=str)
     parser.add_argument('saveto', type=str)
+    parser.add_argument('model', type=argparse.FileType('r'), nargs="+", help="Path to all the reference files")
+
 
     args = parser.parse_args()
     main(args.model, args.saveto, k=args.k, zero_pad=args.z, pkl_name=args.pkl_name,  n_process=args.p, normalize=args.n, datasets=args.d, sampling=args.sampling)
