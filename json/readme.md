@@ -32,7 +32,8 @@ python generate_caps.py ../models/full_model_1.npz_bestll.npz ROOMA -p 6 -d 'tes
 python metrics.py ROOMA.test.txt ROOMgold1.test.txt ROOMgold2.test.txt ROOMgold3.test.txt ROOMgold4.test.txt
 
 ## test finetuned ROOMA
-python generate_caps.py ../models/ROOMA.npz ROOMA -p 6 -d 'test' \
+python generate_caps.py ../models/ROOMA.npz ROOMA -p 6 -d 'test'
+
 python metrics.py ROOMA.test.txt ROOMgold1.test.txt ROOMgold2.test.txt ROOMgold3.test.txt ROOMgold4.test.txt
 
 ## test finetuned ROOMB
