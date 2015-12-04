@@ -81,6 +81,6 @@ python metrics.py animalC.test.txt animalgold1.test.txt animalgold2.test.txt ani
 
 
 
-
+## Other test finetuned commands
 python generate_caps.py ../models/animal_from_1.npz_bestll.npz animal_bll -p 8 -d 'test' -pkl_name ../models/animal_from_1.npz 
 python metrics.py animal_bll.test.txt animal_bllgold0.test.txt animal_bllgold1.test.txt animal_bllgold2.test.txt animal_bllgold3.test.txt animal_bllgold4.test.txt
