@@ -1349,8 +1349,8 @@ def train(dim_word=100,  # word vector dimensionality
         with open('%s.pkl'%saveto, 'rb') as f:
             model_options = pkl.load(f)
     print 'reload_:', reload_
-    #reload_ = True # RELOAD GOT OVERIDE TOO...
-    #print 'reload_:', reload_
+    reload_ = True # RELOAD GOT OVERIDE TOO...
+    print 'reload_:', reload_
 
     print "Using the following parameters:"
     print  model_options
