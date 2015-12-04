@@ -42,23 +42,46 @@ python metrics.py ROOMA.test.txt ROOMAgold1.test.txt ROOMAgold2.test.txt ROOMAgo
 python generate_caps.py ../models/full_model_1.npz_bestll.npz ROOMA -p 6 -d 'test' -pkl_name ../models/full_model_1.npz
 python metrics.py ROOMA.test.txt ROOMgold1.test.txt ROOMgold2.test.txt ROOMgold3.test.txt ROOMgold4.test.txt
 
-# Test Models
+# Validate Models
 
-## Test finetuned models for ROOM
-### test finetuned model for ROOMA
+## Validate finetuned models for ROOM
+### validate finetuned model for ROOMA
 python generate_caps_origin.py ../models/ROOMA.npz ROOMA -p 6 -d 'dev'
 
 python metrics.py ROOMA.dev.txt ROOMAgold1.dev.txt ROOMAgold2.dev.txt ROOMAgold3.dev.txt ROOMAgold4.dev.txt
 
-### test finetuned model for ROOMB
+### validate finetuned model for ROOMB
 python generate_caps_origin.py ../models/ROOMB.npz ROOMB -p 6 -d 'dev' 
 
 python metrics.py ROOMB.dev.txt ROOMBgold1.dev.txt ROOMBgold2.dev.txt ROOMBgold3.dev.txt ROOMBgold4.dev.txt
 
-### test finetuned model for ROOMC
+### validate finetuned model for ROOMC
 python generate_caps_origin.py ../models/ROOMC.npz ROOMC -p 6 -d 'dev' 
 
 python metrics.py ROOMC.dev.txt ROOMCgold1.dev.txt ROOMCgold2.dev.txt ROOMCgold3.dev.txt ROOMCgold4.dev.txt
+
+
+
+# Test Models
+
+## Test finetuned models for ROOM
+### test finetuned model for ROOMA
+python generate_caps_origin.py ../models/ROOMA.npz ROOMA -p 6 -d 'test'
+
+python metrics.py ROOMA.test.txt ROOMAgold1.test.txt ROOMAgold2.test.txt ROOMAgold3.test.txt ROOMAgold4.test.txt
+
+### test finetuned model for ROOMB
+python generate_caps_origin.py ../models/ROOMB.npz ROOMB -p 6 -d 'test'
+
+python metrics.py ROOMB.test.txt ROOMBgold1.test.txt ROOMBgold2.test.txt ROOMBgold3.test.txt ROOMBgold4.test.txt
+
+### test finetuned model for ROOMC
+python generate_caps_origin.py ../models/ROOMC.npz ROOMC -p 6 -d 'test'
+
+python metrics.py ROOMC.test.txt ROOMCgold1.test.txt ROOMCgold2.test.txt ROOMCgold3.test.txt ROOMCgold4.test.txt
+
+
+
 
 ## Test finetuned models for animal
 ### test finetuned models for animalA
