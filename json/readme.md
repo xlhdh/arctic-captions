@@ -68,17 +68,20 @@ python metrics.py ROOMC.dev.txt ROOMCgold1.dev.txt ROOMCgold2.dev.txt ROOMCgold3
 ### test finetuned model for ROOMA
 python generate_caps_origin.py ../models/ROOMA.npz ROOMA -p 6 -d 'test'
 
-python metrics.py ROOMA.test.txt ROOMgold1.test.txt ROOMgold2.test.txt ROOMgold3.test.txt ROOMgold4.test.txt
+python metrics.py ROOMA.test.txt ROOMAgold1.test.txt ROOMAgold2.test.txt ROOMAgold3.test.txt ROOMAgold4.test.txt
 
 ### test finetuned model for ROOMB
 python generate_caps_origin.py ../models/ROOMB.npz ROOMB -p 6 -d 'test'
 
-python metrics.py ROOMB.test.txt ROOMgold1.test.txt ROOMgold2.test.txt ROOMgold3.test.txt ROOMgold4.test.txt
+python metrics.py ROOMB.test.txt ROOMBgold1.test.txt ROOMBgold2.test.txt ROOMBgold3.test.txt ROOMBgold4.test.txt
 
 ### test finetuned model for ROOMC
 python generate_caps_origin.py ../models/ROOMC.npz ROOMC -p 6 -d 'test'
 
-python metrics.py ROOMC.test.txt ROOMgold1.test.txt ROOMgold2.test.txt ROOMgold3.test.txt ROOMgold4.test.txt
+python metrics.py ROOMC.test.txt ROOMCgold1.test.txt ROOMCgold2.test.txt ROOMCgold3.test.txt ROOMCgold4.test.txt
+
+
+
 
 ## Test finetuned models for animal
 ### test finetuned models for animalA
