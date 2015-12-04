@@ -11,14 +11,14 @@ THEANORC=theanorc-gpu.rc nohup python evaluate_coco.py "[['model', '../models/RO
 THEANORC=theanorc-gpu.rc nohup python evaluate_coco.py "[['model', '../models/ROOMC.npz'], ['reload', True], ['save-per-epoch', True]]"
 
 ## Train models for animal
-### train models for animala
-THEANORC=theanorc-gpu.rc nohup python evaluate_coco.py "[['model', '../models/animala.npz'], ['reload', True], ['save-per-epoch', True]]"
+### train models for animalA
+THEANORC=theanorc-gpu.rc nohup python evaluate_coco.py "[['model', '../models/animalA.npz'], ['reload', True], ['save-per-epoch', True]]"
 
-### train models for animalb
-THEANORC=theanorc-gpu.rc nohup python evaluate_coco.py "[['model', '../models/animalb.npz'], ['reload', True], ['save-per-epoch', True]]"
+### train models for animalB
+THEANORC=theanorc-gpu.rc nohup python evaluate_coco.py "[['model', '../models/animalB.npz'], ['reload', True], ['save-per-epoch', True]]"
 
-### train models for animalc
-THEANORC=theanorc-gpu.rc nohup python evaluate_coco.py "[['model', '../models/animalc.npz'], ['reload', True], ['save-per-epoch', True]]"
+### train models for animalC
+THEANORC=theanorc-gpu.rc nohup python evaluate_coco.py "[['model', '../models/animalC.npz'], ['reload', True], ['save-per-epoch', True]]"
 
 ### other training commands
 THEANORC=theanorc-gpu.rc nohup python evaluate_coco.py "[['model', '../models/ROOMB.npz'], ['reload', True]]"
@@ -43,20 +43,44 @@ python generate_caps.py ../models/full_model_1.npz_bestll.npz ROOMA -p 6 -d 'tes
 python metrics.py ROOMA.test.txt ROOMgold1.test.txt ROOMgold2.test.txt ROOMgold3.test.txt ROOMgold4.test.txt
 
 # Test Models
-## test finetuned ROOMA
+
+## Test finetuned models for ROOM
+### test finetuned model for ROOMA
 python generate_caps.py ../models/ROOMA.npz ROOMA -p 6 -d 'test'
 
 python metrics.py ROOMA.test.txt ROOMgold1.test.txt ROOMgold2.test.txt ROOMgold3.test.txt ROOMgold4.test.txt
 
-## test finetuned ROOMB
+### test finetuned model for ROOMB
 python generate_caps.py ../models/ROOMB.npz ROOMB -p 6 -d 'test' 
 
 python metrics.py ROOMB.test.txt ROOMgold1.test.txt ROOMgold2.test.txt ROOMgold3.test.txt ROOMgold4.test.txt
 
-## test finetuned ROOMC
+### test finetuned model for ROOMC
 python generate_caps.py ../models/ROOMC.npz ROOMC -p 6 -d 'test' 
 
 python metrics.py ROOMC.test.txt ROOMgold1.test.txt ROOMgold2.test.txt ROOMgold3.test.txt ROOMgold4.test.txt
+
+## Test finetuned models for animal
+### test finetuned models for animalA
+python generate_caps.py ../models/animalA.npz animalA -p 6 -d 'test'
+
+python metrics.py animalA.test.txt animalgold1.test.txt animalgold2.test.txt animalgold3.test.txt animalgold4.test.txt
+
+### test finetuned models for animalB
+python generate_caps.py ../models/animalB.npz animalB -p 6 -d 'test'
+
+python metrics.py animalB.test.txt animalgold1.test.txt animalgold2.test.txt animalgold3.test.txt animalgold4.test.txt
+
+### test finetuned models for animalC
+python generate_caps.py ../models/animalC.npz animalC -p 6 -d 'test'
+
+python metrics.py animalC.test.txt animalgold1.test.txt animalgold2.test.txt animalgold3.test.txt animalgold4.test.txt
+
+
+
+
+
+
 
 python generate_caps.py ../models/animal_from_1.npz_bestll.npz animal_bll -p 8 -d 'test' -pkl_name ../models/animal_from_1.npz 
 python metrics.py animal_bll.test.txt animal_bllgold0.test.txt animal_bllgold1.test.txt animal_bllgold2.test.txt animal_bllgold3.test.txt animal_bllgold4.test.txt
