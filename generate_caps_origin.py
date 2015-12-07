@@ -7,7 +7,7 @@ import argparse
 import numpy
 import cPickle as pkl
 
-from capgen import build_sampler, gen_sample, gen_sample_ensemble, \
+from capgen import build_sampler, gen_sample, \
                    load_params, \
                    init_params, \
                    init_tparams, \
@@ -27,53 +27,22 @@ def gen_model(queue, rqueue, pid, model, options, k, normalize, word_idict, samp
     use_noise = theano.shared(numpy.float32(0.), name='use_noise')
 
     # get the parameters
-    #params = init_params(options)
-    #params = load_params(model, params)
-    #tparams = init_tparams(params)
-
-
-    tparams_list = []
-    f_init_list = []
-    f_next_list = []
-
-    for m in model:
-        params = init_params(options)
-        params = load_params(m, params)
-        tparams_list.append( init_tparams(params) )
-        f_init, f_next = build_sampler(tparams_list[-1], options, use_noise, trng, sampling=sampling)
-        f_init_list.append( f_init )
-        f_next_list.append( f_next )
+    params = init_params(options)
+    params = load_params(model, params)
+    tparams = init_tparams(params)
 
     # build the sampling computational graph
     # see capgen.py for more detailed explanations
-    #f_init, f_next = build_sampler(tparams, options, use_noise, trng, sampling=sampling)
+    f_init, f_next = build_sampler(tparams, options, use_noise, trng, sampling=sampling)
 
     def _gencap(cc0):
-        #sample, score = gen_sample_ensemble(tparams_list, f_init_list, f_next_list, cc0, options,
-        #                           trng=trng, k=k, maxlen=200, stochastic=False)
-
-        #sample, score = gen_sample(tparams, f_init, f_next, cc0, options,
-        #                           trng=trng, k=k, maxlen=200, stochastic=False)
-        
-        sample = []
-        score = []
-        for tparams, f_init, f_next in zip(tparams_list, f_init_list, f_next_list):
-            sample1, score1 = gen_sample(tparams, f_init, f_next, cc0, options,
-                                       trng=trng, k=k, maxlen=200, stochastic=False)
-            sample.extend(sample1)
-            score.extend(score1)
-
-        #sample = numpy.vstack(sample)
-        #score = numpy.vstack(score)
-
+        sample, score = gen_sample(tparams, f_init, f_next, cc0, options,
+                                   trng=trng, k=k, maxlen=200, stochastic=False)
         # adjust for length bias
         if normalize:
             lengths = numpy.array([len(s) for s in sample])
             score = score / lengths
         sidx = numpy.argmin(score)
-        #print sample
-        #print score
-        print sidx
         return sample[sidx]
 
     while True:
@@ -88,10 +57,10 @@ def gen_model(queue, rqueue, pid, model, options, k, normalize, word_idict, samp
 
     return 
 
-def main(model, saveto, k=5, normalize=True, zero_pad=False, n_process=5, datasets='dev,test', sampling=False, pkl_name=None):
+def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datasets='dev,test', sampling=False, pkl_name=None):
     # load model model_options
     if pkl_name is None:
-        pkl_name = model[0]
+        pkl_name = model
     with open('%s.pkl'% pkl_name, 'rb') as f:
         options = pkl.load(f)
 
@@ -163,15 +132,15 @@ def main(model, saveto, k=5, normalize=True, zero_pad=False, n_process=5, datase
             with open(saveto+'.dev.txt', 'w') as f:
                 print >>f, '\n'.join(caps)
 
-            # sents = []
-            # for sen in valid[0]:
-            #     while len(sents) < sen[1]+1:
-            #         sents.append([])
-            #     sents[sen[1]].append(sen[0].strip())
-            # sents2 = zip(*sents)
-            # for idd in range(5):
-            #     with open(saveto+'gold'+str(idd)+'.dev.txt', 'w') as f:
-            #         print >>f, '\n'.join(sents2[idd])
+            sents = []
+            for sen in valid[0]:
+                while len(sents) < sen[1]+1:
+                    sents.append([])
+                sents[sen[1]].append(sen[0].strip())
+            sents2 = zip(*sents)
+            for idd in range(5):
+                with open(saveto+'gold'+str(idd)+'.dev.txt', 'w') as f:
+                    print >>f, '\n'.join(sents2[idd])
 
             print 'Done'
         if dd == 'test':
@@ -183,15 +152,15 @@ def main(model, saveto, k=5, normalize=True, zero_pad=False, n_process=5, datase
             with open(saveto+'.test.txt', 'w') as f:
                 print >>f, '\n'.join(caps)
 
-            # sents = []
-            # for sen in test[0]:
-            #     while len(sents) < sen[1]+1:
-            #         sents.append([])
-            #     sents[sen[1]].append(sen[0].strip())
-            # sents2 = zip(*sents)
-            # for idd in range(5):
-            #     with open(saveto+'gold'+str(idd)+'.test.txt', 'w') as f:
-            #         print >>f, '\n'.join(sents2[idd])
+            sents = []
+            for sen in test[0]:
+                while len(sents) < sen[1]+1:
+                    sents.append([])
+                sents[sen[1]].append(sen[0].strip())
+            sents2 = zip(*sents)
+            for idd in range(5):
+                with open(saveto+'gold'+str(idd)+'.test.txt', 'w') as f:
+                    print >>f, '\n'.join(sents2[idd])
 
             print 'Done'
     # end processes
@@ -208,10 +177,8 @@ if __name__ == "__main__":
     parser.add_argument('-z', action="store_true", default=False)
     parser.add_argument('-d', type=str, default='dev,test')
     parser.add_argument('-pkl_name', type=str, default=None, help="name of pickle file (without the .pkl)")
-    #parser.add_argument('model', type=str)
+    parser.add_argument('model', type=str)
     parser.add_argument('saveto', type=str)
-    parser.add_argument('model', type=str, nargs="+", help="Path to all the reference files")
-
 
     args = parser.parse_args()
     main(args.model, args.saveto, k=args.k, zero_pad=args.z, pkl_name=args.pkl_name,  n_process=args.p, normalize=args.n, datasets=args.d, sampling=args.sampling)

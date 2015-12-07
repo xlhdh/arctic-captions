@@ -1,0 +1,10 @@
+cp ../models/ROOMA.npz_epoch_2.npz ../models/ROOMA.npz
+cp ../models/ROOMB.npz_epoch_1.npz ../models/ROOMB.npz
+cp ../models/ROOMC.npz_epoch_2.npz ../models/ROOMC.npz
+cp ../models/ROOMD.npz_epoch_7.npz ../models/ROOMD.npz
+cp ../models/ROOME.npz_epoch_2.npz ../models/ROOME.npz
+cp ../models/ROOMF.npz_epoch_2.npz ../models/ROOMF.npz
+cp ../models/ROOMG.npz_epoch_3.npz ../models/ROOMG.npz
+cp ../models/ROOMH.npz_epoch_5.npz ../models/ROOMH.npz
+cp ../models/ROOMI.npz_epoch_1.npz ../models/ROOMI.npz
+cp ../models/ROOMJ.npz_epoch_1.npz ../models/ROOMJ.npz

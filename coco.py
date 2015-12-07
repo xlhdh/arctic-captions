@@ -73,16 +73,11 @@ def load_data(load_train=True, load_dev=True, load_test=True, path='./'):
     valid = None
     test = None
 
-    if load_train:
+    if load_dev:
         with open(path+'coco_align.train.pkl', 'rb') as f:
             train_cap = pkl.load(f)
-            #train_feat = pkl.load(f)
-        import sys
-        sys.path.insert(0, '/json')
-        import ret
-        train_feat = ret.ret80000()
+            train_feat = pkl.load(f)
         train = (train_cap, train_feat)
-        print "loaded train"
 
     if load_dev:
         with open(path+'coco_align.dev.pkl', 'rb') as f:
