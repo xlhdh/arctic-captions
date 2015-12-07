@@ -135,7 +135,7 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
             scores[resp[0]] = resp[2]
             if numpy.mod(idx, 10) == 0:
                 print 'Sample ', (idx+1), '/', n_samples, ' Done'
-        return caps
+        return caps, scores
 
     ds = datasets.strip().split(',')
 
