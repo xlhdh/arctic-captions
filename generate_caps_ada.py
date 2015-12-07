@@ -102,7 +102,7 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
         processes[midx].start()
 
     # index -> words
-    def _seqs2words(caps,scores):
+    def _seqs2words(caps):
         capsw = []
         for cc in caps:
             ww = []
@@ -111,7 +111,7 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
                     break
                 ww.append(word_idict[w])
             capsw.append(' '.join(ww))
-        return capsw, scores
+        return capsw
 
     # unsparsify, reshape, and queue
     def _send_jobs(contexts):
@@ -145,7 +145,8 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
             print 'Development Set...',
             _send_jobs(valid[1])
             print 'Finished sending DEV'
-            caps,scores = _seqs2words(_retrieve_jobs(valid[1].shape[0]))
+            caps,scores = _retrieve_jobs(valid[1].shape[0])
+            caps = _seqs2words(caps)
             print 'Finished Generationg DEV'
             with open(saveto+'.dev.txt', 'w') as f:
                 print >>f, '\n'.join(caps)
@@ -168,7 +169,8 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
             print 'Test Set...',
             _send_jobs(test[1])
             print 'Finished sending TEST'
-            caps,scores = _seqs2words(_retrieve_jobs(test[1].shape[0]))
+            caps,scores = _retrieve_jobs(valid[1].shape[0])
+            caps = _seqs2words(caps)
             print 'Finished Generationg TEST'
             with open(saveto+'.test.txt', 'w') as f:
                 print >>f, '\n'.join(caps)
