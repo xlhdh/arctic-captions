@@ -49,16 +49,31 @@ def gen_model(queue, rqueue, pid, model, options, k, normalize, word_idict, samp
     #f_init, f_next = build_sampler(tparams, options, use_noise, trng, sampling=sampling)
 
     def _gencap(cc0):
-        sample, score = gen_sample_ensemble(tparams_list, f_init_list, f_next_list, cc0, options,
-                                   trng=trng, k=k, maxlen=200, stochastic=False)
+        #sample, score = gen_sample_ensemble(tparams_list, f_init_list, f_next_list, cc0, options,
+        #                           trng=trng, k=k, maxlen=200, stochastic=False)
 
         #sample, score = gen_sample(tparams, f_init, f_next, cc0, options,
         #                           trng=trng, k=k, maxlen=200, stochastic=False)
+        
+        sample = []
+        score = []
+        for tparams, f_init, f_next in zip(tparams_list, f_init_list, f_next_list):
+            sample1, score1 = gen_sample(tparams, f_init, f_next, cc0, options,
+                                       trng=trng, k=k, maxlen=200, stochastic=False)
+            sample.extend(sample1)
+            score.extend(score1)
+
+        #sample = numpy.vstack(sample)
+        #score = numpy.vstack(score)
+
         # adjust for length bias
         if normalize:
             lengths = numpy.array([len(s) for s in sample])
             score = score / lengths
         sidx = numpy.argmin(score)
+        #print sample
+        #print score
+        print sidx
         return sample[sidx]
 
     while True:
@@ -73,7 +88,7 @@ def gen_model(queue, rqueue, pid, model, options, k, normalize, word_idict, samp
 
     return 
 
-def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datasets='dev,test', sampling=False, pkl_name=None):
+def main(model, saveto, k=5, normalize=True, zero_pad=False, n_process=5, datasets='dev,test', sampling=False, pkl_name=None):
     # load model model_options
     if pkl_name is None:
         pkl_name = model[0]
@@ -148,15 +163,15 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
             with open(saveto+'.dev.txt', 'w') as f:
                 print >>f, '\n'.join(caps)
 
-            sents = []
-            for sen in valid[0]:
-                while len(sents) < sen[1]+1:
-                    sents.append([])
-                sents[sen[1]].append(sen[0].strip())
-            sents2 = zip(*sents)
-            for idd in range(5):
-                with open(saveto+'gold'+str(idd)+'.dev.txt', 'w') as f:
-                    print >>f, '\n'.join(sents2[idd])
+            # sents = []
+            # for sen in valid[0]:
+            #     while len(sents) < sen[1]+1:
+            #         sents.append([])
+            #     sents[sen[1]].append(sen[0].strip())
+            # sents2 = zip(*sents)
+            # for idd in range(5):
+            #     with open(saveto+'gold'+str(idd)+'.dev.txt', 'w') as f:
+            #         print >>f, '\n'.join(sents2[idd])
 
             print 'Done'
         if dd == 'test':
@@ -168,15 +183,15 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
             with open(saveto+'.test.txt', 'w') as f:
                 print >>f, '\n'.join(caps)
 
-            sents = []
-            for sen in test[0]:
-                while len(sents) < sen[1]+1:
-                    sents.append([])
-                sents[sen[1]].append(sen[0].strip())
-            sents2 = zip(*sents)
-            for idd in range(5):
-                with open(saveto+'gold'+str(idd)+'.test.txt', 'w') as f:
-                    print >>f, '\n'.join(sents2[idd])
+            # sents = []
+            # for sen in test[0]:
+            #     while len(sents) < sen[1]+1:
+            #         sents.append([])
+            #     sents[sen[1]].append(sen[0].strip())
+            # sents2 = zip(*sents)
+            # for idd in range(5):
+            #     with open(saveto+'gold'+str(idd)+'.test.txt', 'w') as f:
+            #         print >>f, '\n'.join(sents2[idd])
 
             print 'Done'
     # end processes
