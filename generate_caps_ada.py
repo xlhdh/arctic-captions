@@ -74,13 +74,12 @@ def gen_model(queue, rqueue, pid, model, options, k, normalize, word_idict, samp
     return 
 
 def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datasets='dev,test', sampling=False, pkl_name=None, cate_name = None):
-	
-	ref_images = open(cate_name,'r').read().splitlines()
 
+    ref_images = open(cate_name,'r').read().splitlines()
     # load model model_options
     if pkl_name is None:
-    	pkl_name = model[0]
-    	
+        pkl_name = model[0]
+
     with open('%s.pkl'% pkl_name, 'rb') as f:
         options = pkl.load(f)
 
@@ -158,7 +157,7 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
                 for score in scores:
                 	print >>f, str(score)+'\n'
             with open(saveto+'.dev.info.txt', 'w') as f:
-                for idx in range(len(scores):
+                for idx in range(len(scores)):
                 	print >>f, caps[idx] +'\n'+ ref_images[idx] +'\n'+ str(scores[idx]) +'\n'
 
 
@@ -186,7 +185,7 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
                 for score in scores:
                 	print >>f, str(score)+'\n'
             with open(saveto+'.test.info.txt', 'w') as f:
-                for idx in range(len(scores):
+                for idx in range(len(scores)):
                 	print >>f, caps[idx] +'\n'+ ref_images[idx] +'\n'+ str(scores[idx]) +'\n'
 
                 
