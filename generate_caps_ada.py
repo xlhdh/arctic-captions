@@ -102,7 +102,7 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
         processes[midx].start()
 
     # index -> words
-    def _seqs2words(caps):
+    def _seqs2words(caps,scores):
         capsw = []
         for cc in caps:
             ww = []
@@ -111,7 +111,7 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
                     break
                 ww.append(word_idict[w])
             capsw.append(' '.join(ww))
-        return capsw
+        return capsw, scores
 
     # unsparsify, reshape, and queue
     def _send_jobs(contexts):
