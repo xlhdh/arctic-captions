@@ -73,7 +73,9 @@ def gen_model(queue, rqueue, pid, model, options, k, normalize, word_idict, samp
 
     return 
 
-def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datasets='dev,test', sampling=False, pkl_name=None):
+def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datasets='dev,test', sampling=False, pkl_name=None, cate_name = None):
+	ref_images = open(cate_name,'r').read().splitlines()
+
     # load model model_options
     if pkl_name is None:
         pkl_name = model[0]
@@ -153,6 +155,9 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
             with open(saveto+'.dev.scores.txt', 'w') as f:
                 for score in scores:
                 	print >>f, str(score)+'\n'
+            with open(saveto+'.dev.info.txt', 'w') as f:
+                for idx in range(len(scores):
+                	print >>f, caps[idx] +'\n'+ ref_images[idx] +'\n'+ str(scores[idx]) +'\n'
 
 
             # sents = []
@@ -178,6 +183,10 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
             with open(saveto+'.test.scores.txt', 'w') as f:
                 for score in scores:
                 	print >>f, str(score)+'\n'
+            with open(saveto+'.test.info.txt', 'w') as f:
+                for idx in range(len(scores):
+                	print >>f, caps[idx] +'\n'+ ref_images[idx] +'\n'+ str(scores[idx]) +'\n'
+
                 
 
             # sents = []
@@ -205,10 +214,11 @@ if __name__ == "__main__":
     parser.add_argument('-z', action="store_true", default=False)
     parser.add_argument('-d', type=str, default='dev,test')
     parser.add_argument('-pkl_name', type=str, default=None, help="name of pickle file (without the .pkl)")
+    parser.add_argument('-cate_name', type=str, default=None, help="name of category file")
     parser.add_argument('model', type=str)
     parser.add_argument('saveto', type=str)
     #parser.add_argument('model', type=str, nargs="+", help="Path to all the reference files")
 
 
     args = parser.parse_args()
-    main(args.model, args.saveto, k=args.k, zero_pad=args.z, pkl_name=args.pkl_name,  n_process=args.p, normalize=args.n, datasets=args.d, sampling=args.sampling)
+    main(args.model, args.saveto, k=args.k, zero_pad=args.z, pkl_name=args.pkl_name, cate_name = args.cate_name,  n_process=args.p, normalize=args.n, datasets=args.d, sampling=args.sampling)
