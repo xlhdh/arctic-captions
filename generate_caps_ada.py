@@ -74,11 +74,13 @@ def gen_model(queue, rqueue, pid, model, options, k, normalize, word_idict, samp
     return 
 
 def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datasets='dev,test', sampling=False, pkl_name=None, cate_name = None):
+	
 	ref_images = open(cate_name,'r').read().splitlines()
 
     # load model model_options
     if pkl_name is None:
-        pkl_name = model[0]
+    	pkl_name = model[0]
+    	
     with open('%s.pkl'% pkl_name, 'rb') as f:
         options = pkl.load(f)
 
