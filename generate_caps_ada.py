@@ -212,8 +212,16 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
             print 'Train Set...',
             _send_jobs(train[1])
             print 'Finished sending TRAIN'
-            caps,scores = _retrieve_jobs(train[1].shape[0])
-            caps = _seqs2words(caps)
+            all_caps,all_scores = _retrieve_jobs(train[1].shape[0])
+            all_caps = _seqs2words(all_caps)
+            caps = []
+            scores = []
+            index = 0
+            for i in xrange(len(weights)):
+                caps.append(all_caps[index])
+                scores.append(all_scores[index])
+                index += weights[i]
+
             print 'Finished Generationg TRAIN'
             with open(saveto+'.train.txt', 'w') as f:
                 print >>f, '\n'.join(caps)
@@ -229,11 +237,12 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
 
             with open(out_name, 'w') as f:
                 for i in range(len(scores)):
-                    if scores[i] > avgScore and weights[i] <= 4:
-                        weights[i] = weights[i]*2
-                    if scores[i] < 0.5*avgScore:
-                        weights[i] = weights[i]/2
+                    if scores[i] > 1.2*avgScore and weights[i] <= 4:
+                        weights[i] = weights[i]+1
+                    if scores[i] < 0.5*avgScore and weights[i] > 0:
+                        weights[i] = weights[i]-1
                     print >>f, ref_images[i]+','+str(weights[i])
+            
             # sents = []
             # for sen in test[0]:
             #     while len(sents) < sen[1]+1:
