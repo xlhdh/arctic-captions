@@ -73,7 +73,7 @@ def gen_model(queue, rqueue, pid, model, options, k, normalize, word_idict, samp
 
     return 
 
-def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datasets='dev,test', sampling=False, pkl_name=None, cate_name = None):
+def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datasets='train,dev,test', sampling=False, pkl_name=None, cate_name = None):
 
     ref_images = open(cate_name,'r').read().splitlines()
     # load model model_options
@@ -85,7 +85,7 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
 
     # fetch data, skip ones we aren't using to save time
     load_data, prepare_data = get_dataset(options['dataset'])
-    _, valid, test, worddict = load_data(load_train=False, load_dev=True if 'dev' in datasets else False,
+    train, valid, test, worddict = load_data(load_train=True if 'train' in datasets else False, load_dev=True if 'dev' in datasets else False,
                                              load_test=True if 'test' in datasets else False)
 
     # <eos> means end of sequence (aka periods), UNK means unknown
@@ -176,7 +176,7 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
             print 'Test Set...',
             _send_jobs(test[1])
             print 'Finished sending TEST'
-            caps,scores = _retrieve_jobs(valid[1].shape[0])
+            caps,scores = _retrieve_jobs(test[1].shape[0])
             caps = _seqs2words(caps)
             print 'Finished Generationg TEST'
             with open(saveto+'.test.txt', 'w') as f:
@@ -185,6 +185,35 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
                 for score in scores:
                 	print >>f, str(score)+'\n'
             with open(saveto+'.test.info.txt', 'w') as f:
+                for idx in range(len(scores)):
+                	print >>f, caps[idx] +'\n'+ ref_images[idx] +'\n'+ str(scores[idx]) +'\n'
+
+                
+
+            # sents = []
+            # for sen in test[0]:
+            #     while len(sents) < sen[1]+1:
+            #         sents.append([])
+            #     sents[sen[1]].append(sen[0].strip())
+            # sents2 = zip(*sents)
+            # for idd in range(5):
+            #     with open(saveto+'gold'+str(idd)+'.test.txt', 'w') as f:
+            #         print >>f, '\n'.join(sents2[idd])
+
+            print 'Done'
+         if dd == 'train':
+            print 'Train Set...',
+            _send_jobs(train[1])
+            print 'Finished sending TRAIN'
+            caps,scores = _retrieve_jobs(train[1].shape[0])
+            caps = _seqs2words(caps)
+            print 'Finished Generationg TRAIN'
+            with open(saveto+'.train.txt', 'w') as f:
+                print >>f, '\n'.join(caps)
+            with open(saveto+'.train.scores.txt', 'w') as f:
+                for score in scores:
+                	print >>f, str(score)+'\n'
+            with open(saveto+'.train.info.txt', 'w') as f:
                 for idx in range(len(scores)):
                 	print >>f, caps[idx] +'\n'+ ref_images[idx] +'\n'+ str(scores[idx]) +'\n'
 
@@ -213,7 +242,7 @@ if __name__ == "__main__":
     parser.add_argument('-p', type=int, default=5, help="number of processes to use")
     parser.add_argument('-n', action="store_true", default=False)
     parser.add_argument('-z', action="store_true", default=False)
-    parser.add_argument('-d', type=str, default='dev,test')
+    parser.add_argument('-d', type=str, default='train,dev,test')
     parser.add_argument('-pkl_name', type=str, default=None, help="name of pickle file (without the .pkl)")
     parser.add_argument('-cate_name', type=str, default=None, help="name of category file")
     parser.add_argument('model', type=str)
