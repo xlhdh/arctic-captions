@@ -217,7 +217,10 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
                 for idx in range(len(scores)):
                 	print >>f, caps[idx] +'\n'+ ref_images[idx] +'\n'+ str(scores[idx]) +'\n'
 
-                
+            avgScore = sum(scores) / float(len(scores))
+            for score in scores
+                avgScore += score
+
 
             # sents = []
             # for sen in test[0]:

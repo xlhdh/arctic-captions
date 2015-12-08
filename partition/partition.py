@@ -54,7 +54,7 @@ def filterDataSet(wordSet, file_path, output_name, splits, image_prefix, noise =
 
     with open(output_name, 'w+') as f:
          for x in imageList[ : int(imageNum/6)]:
-             f.write(x)
+             f.write(x[:-1]+','+str(int(1))+'\n')
 
     # with open(catagory + '_train.txt', 'w+') as f:
     #     for x in imageList[ : int(0.8*imageNum)]:
