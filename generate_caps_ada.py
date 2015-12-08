@@ -73,9 +73,16 @@ def gen_model(queue, rqueue, pid, model, options, k, normalize, word_idict, samp
 
     return 
 
-def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datasets='train,dev,test', sampling=False, pkl_name=None, cate_name = None):
+def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datasets='train,dev,test', sampling=False, pkl_name=None, cate_name = None, out_name = None):
 
-    ref_images = open(cate_name,'r').read().splitlines()
+    lines = open(cate_name,'r').read().splitlines()
+    ref_images = []
+    weights = []
+    for line in lines:
+        s = line.split(',')
+        ref_images.append(s[0])
+        weights.append(int(s[1]))
+
     # load model model_options
     if pkl_name is None:
         pkl_name = model[0]
@@ -218,10 +225,15 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
                 	print >>f, caps[idx] +'\n'+ ref_images[idx] +'\n'+ str(scores[idx]) +'\n'
 
             avgScore = sum(scores) / float(len(scores))
-            for score in scores
-                avgScore += score
+            
 
-
+            with open(out_name, 'w') as f:
+                for i in range(len(scores)):
+                    if scores[i] > avgScore and weights[i] <= 4:
+                        weights[i] = weights[i]*2
+                    if scores[i] < 0.5*avgScore:
+                        weights[i] = weights[i]/2
+                    print >>f, ref_images[i]+','+str(weights[i])
             # sents = []
             # for sen in test[0]:
             #     while len(sents) < sen[1]+1:
@@ -248,10 +260,11 @@ if __name__ == "__main__":
     parser.add_argument('-d', type=str, default='train,dev,test')
     parser.add_argument('-pkl_name', type=str, default=None, help="name of pickle file (without the .pkl)")
     parser.add_argument('-cate_name', type=str, default=None, help="name of category file")
+    parser.add_argument('-out_name', type=str, default=None, help="name of output file")
     parser.add_argument('model', type=str)
     parser.add_argument('saveto', type=str)
     #parser.add_argument('model', type=str, nargs="+", help="Path to all the reference files")
 
 
     args = parser.parse_args()
-    main(args.model, args.saveto, k=args.k, zero_pad=args.z, pkl_name=args.pkl_name, cate_name = args.cate_name,  n_process=args.p, normalize=args.n, datasets=args.d, sampling=args.sampling)
+    main(args.model, args.saveto, k=args.k, zero_pad=args.z, pkl_name=args.pkl_name, cate_name = args.cate_name, out_name = args.out_name , n_process=args.p, normalize=args.n, datasets=args.d, sampling=args.sampling)
