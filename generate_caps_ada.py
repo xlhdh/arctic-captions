@@ -218,8 +218,12 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
             scores = []
             index = 0
             for i in xrange(len(weights)):
-                caps.append(all_caps[index])
-                scores.append(all_scores[index])
+                if weights[i] == 0:
+                    scores.append(0)
+                else:
+                    caps.append(all_caps[index])
+                    scores.append(all_scores[index])
+                
                 index += weights[i]
 
             print 'Finished Generationg TRAIN'
