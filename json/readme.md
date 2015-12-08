@@ -132,3 +132,5 @@ python metrics.py animal_bll.test.txt animal_bllgold0.test.txt animal_bllgold1.t
 ## AdaTest
 
 /media/haboric/Ubuntu Data/yizhou/arctic-captions$ python generate_caps_ada.py ../models/ROOMA.npz adaTest  -p 6 -d 'dev' -pkl_name ../models/ROOMA.npz -cate_name category/indoor/indoor_val.txt
+
+/media/haboric/Ubuntu Data/yizhou/arctic-captions$ python generate_caps_ada.py ../models/ROOMA.npz adaTest  -p 6 -d 'train' -pkl_name ../models/ROOMA.npz -cate_name category/indoor/indoor_train.txt -out_name category/indoor/indoor_train_1.txt
