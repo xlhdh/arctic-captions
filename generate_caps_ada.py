@@ -212,19 +212,23 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
             print 'Train Set...',
             _send_jobs(train[1])
             print 'Finished sending TRAIN'
-            all_caps,all_scores = _retrieve_jobs(train[1].shape[0])
-            all_caps = _seqs2words(all_caps)
-            caps = []
-            scores = []
-            index = 0
-            for i in xrange(len(weights)):
-                if weights[i] == 0:
-                    scores.append(0)
-                else:
-                    caps.append(all_caps[index])
-                    scores.append(all_scores[index])
+
+            caps, scores = _retrieve_jobs(train[1].shape[0])
+            caps = _seqs2words(all_caps)
+            
+            # all_caps,all_scores = _retrieve_jobs(train[1].shape[0])
+            # all_caps = _seqs2words(all_caps)
+            # caps = []
+            # scores = []
+            # index = 0
+            # for i in xrange(len(weights)):
+            #     if weights[i] == 0:
+            #         scores.append(0)
+            #     else:
+            #         caps.append(all_caps[index])
+            #         scores.append(all_scores[index])
                 
-                index += weights[i]
+            #     index += weights[i]
 
             print 'Finished Generationg TRAIN'
             with open(saveto+'.train.txt', 'w') as f:
