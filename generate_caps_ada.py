@@ -201,7 +201,7 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
             #         print >>f, '\n'.join(sents2[idd])
 
             print 'Done'
-         if dd == 'train':
+        if dd == 'train':
             print 'Train Set...',
             _send_jobs(train[1])
             print 'Finished sending TRAIN'
