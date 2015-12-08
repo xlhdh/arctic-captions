@@ -214,8 +214,8 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
             print 'Finished sending TRAIN'
 
             caps, scores = _retrieve_jobs(train[1].shape[0])
-            caps = _seqs2words(all_caps)
-            
+            caps = _seqs2words(caps)
+
             # all_caps,all_scores = _retrieve_jobs(train[1].shape[0])
             # all_caps = _seqs2words(all_caps)
             # caps = []
