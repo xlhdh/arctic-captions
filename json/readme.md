@@ -136,3 +136,7 @@ python metrics.py animal_bll.test.txt animal_bllgold0.test.txt animal_bllgold1.t
 /media/haboric/Ubuntu Data/yizhou/arctic-captions$ python generate_caps_ada.py ../models/ROOMA.npz adaTest  -p 6 -d 'train' -pkl_name ../models/ROOMA.npz -cate_name category/indoor/indoor_train.txt -out_name category/indoor/indoor_train_1.txt
 
 python generate_caps_ada.py ../models/ROOM11.npz adaTest -p 6 -d 'train' -pkl_name ../models/ROOM11.npz -cate_name category/indoor/indoor_train_1.txt -out_name category/indoor/indoor_train_2.txt
+
+python generate_caps_ada.py ../models/ROOM12.npz adaTest -p 6 -d 'train' -pkl_name ../models/ROOM12.npz -cate_name category/indoor/indoor_train_2.txt -out_name category/indoor/indoor_train_3.txt
+
+python generate_caps_ada.py ../models/ROOM13.npz adaTest -p 6 -d 'train' -pkl_name ../models/ROOM13.npz -cate_name category/indoor/indoor_train_3.txt -out_name category/indoor/indoor_train_4.txt
