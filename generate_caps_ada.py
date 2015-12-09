@@ -252,7 +252,7 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
                     print >>f, ref_images[i]+','+str(weights[i])
             
             with open(out_name+'.info.txt', 'w') as f:
-                printf >>f, 'ModelWeight:'+str(modelWeight)
+                print >>f, 'ModelWeight:'+str(modelWeight)
                 for idx in range(len(scores)):
                     print >>f, caps[idx] +'\n'+ ref_images[idx] +'\n'+ str(scores[idx]) +'\n'
             # sents = []
