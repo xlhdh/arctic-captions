@@ -245,7 +245,7 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
 
             with open(out_name, 'w') as f:
                 for i in range(len(scores)):
-                    if scores[i] > 1.2*avgScore and weights[i] <= 4:
+                    if scores[i] > 1.2*avgScore and weights[i] <= 10:
                         weights[i] = weights[i]+1
                     if scores[i] < 0.5*avgScore and weights[i] > 0:
                         weights[i] = weights[i]-1
