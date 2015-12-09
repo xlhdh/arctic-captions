@@ -233,24 +233,28 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
             print 'Finished Generationg TRAIN'
             with open(saveto+'.train.txt', 'w') as f:
                 print >>f, '\n'.join(caps)
-            with open(saveto+'.train.scores.txt', 'w') as f:
-                for score in scores:
-                	print >>f, str(score)+'\n'
-            with open(saveto+'.train.info.txt', 'w') as f:
-                for idx in range(len(scores)):
-                	print >>f, caps[idx] +'\n'+ ref_images[idx] +'\n'+ str(scores[idx]) +'\n'
+            # with open(saveto+'.train.scores.txt', 'w') as f:
+            #     for score in scores:
+            #     	print >>f, str(score)+'\n'
 
             avgScore = sum(scores) / float(len(scores))
-            
+            totalWeight = float(sum(weights))
+            modelWeight = 0;
 
             with open(out_name, 'w') as f:
                 for i in range(len(scores)):
+                    modelWeight += float(weights[i])/totalWeight * scores[i] 
+
                     if scores[i] > 1.2*avgScore and weights[i] <= 10:
                         weights[i] = weights[i]+1
                     if scores[i] < 0.5*avgScore and weights[i] > 0:
                         weights[i] = weights[i]-1
                     print >>f, ref_images[i]+','+str(weights[i])
             
+            with open(out_name+'.info.txt', 'w') as f:
+                printf >>f, 'ModelWeight:'+str(modelWeight)
+                for idx in range(len(scores)):
+                    print >>f, caps[idx] +'\n'+ ref_images[idx] +'\n'+ str(scores[idx]) +'\n'
             # sents = []
             # for sen in test[0]:
             #     while len(sents) < sen[1]+1:
