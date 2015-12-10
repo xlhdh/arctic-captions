@@ -237,13 +237,16 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
             #     for score in scores:
             #     	print >>f, str(score)+'\n'
 
+            threshold = 0.9
             avgScore = sum(scores) / float(len(scores))
             totalWeight = float(sum(weights))
-            modelWeight = 0;
+            loss = 0;
 
             with open(out_name, 'w') as f:
                 for i in range(len(scores)):
-                    modelWeight += float(weights[i])/totalWeight / scores[i] 
+                    if scores[i] > threshold:
+                        loss += float(weights[i]) / totalWeight
+                    #modelWeight += float(weights[i])/totalWeight / scores[i] 
 
                     if scores[i] > 1.2*avgScore and weights[i] <= 10:
                         weights[i] = weights[i]+1
@@ -251,6 +254,10 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
                         weights[i] = weights[i]-1
                     print >>f, ref_images[i]+','+str(weights[i])
             
+
+            ModelWeight = 0.5 * numpy.log(1/loss - 1)
+
+
             with open(cate_name[:-4]+'.info.txt', 'w') as f:
                 print >>f, 'ModelWeight:'+str(modelWeight)
                 for idx in range(len(scores)):
