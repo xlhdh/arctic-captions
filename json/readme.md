@@ -140,3 +140,7 @@ python generate_caps_ada.py ../models/ROOM11.npz adaTest -p 6 -d 'train' -pkl_na
 python generate_caps_ada.py ../models/ROOM12.npz adaTest -p 6 -d 'train' -pkl_name ../models/ROOM12.npz -cate_name category/indoor/indoor_train_2.txt -out_name category/indoor/indoor_train_3.txt
 
 python generate_caps_ada.py ../models/ROOM13.npz adaTest -p 6 -d 'train' -pkl_name ../models/ROOM13.npz -cate_name category/indoor/indoor_train_3.txt -out_name category/indoor/indoor_train_4.txt
+
+python generate_caps_ada.py ../models/ROOM14.npz adaTest -p 6 -d 'train' -pkl_name ../models/ROOM14.npz -cate_name category/indoor/indoor_train_4.txt -out_name category/indoor/indoor_train_5.txt
+
+python generate_caps_ada.py ../models/ROOM15.npz adaTest -p 6 -d 'train' -pkl_name ../models/ROOM15.npz -cate_name category/indoor/indoor_train_5.txt -out_name category/indoor/indoor_train_6.txt
