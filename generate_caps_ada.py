@@ -237,7 +237,7 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
             #     for score in scores:
             #     	print >>f, str(score)+'\n'
 
-            threshold = 0.9
+            threshold = 1.0
             avgScore = sum(scores) / float(len(scores))
             totalWeight = float(sum(weights))
             loss = 0;
