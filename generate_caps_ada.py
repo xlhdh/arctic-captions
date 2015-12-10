@@ -255,7 +255,7 @@ def main(model, saveto, k=5, normalize=False, zero_pad=False, n_process=5, datas
                     print >>f, ref_images[i]+','+str(weights[i])
             
 
-            ModelWeight = 0.5 * numpy.log(1/loss - 1)
+            modelWeight = 0.5 * numpy.log(1/loss - 1)
 
 
             with open(cate_name[:-4]+'.info.txt', 'w') as f:
