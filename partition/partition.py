@@ -47,14 +47,15 @@ def filterDataSet(wordSet, file_path, output_name, splits, image_prefix, noise =
     imageList = list(imageSet)
     noiseList = list(noiseSet)
 
-    imageList.extend(noiseList[: int(len(imageList) * noise)])
+    #imageList.extend(noiseList[: int(len(imageList) * noise)])
     random.shuffle(imageList)
 
     imageNum = len(imageList)
 
     with open(output_name, 'w+') as f:
          for x in imageList[ : int(imageNum/6)]:
-             f.write(x[:-1]+','+str(int(1))+'\n')
+             #f.write(x[:-1]+','+str(int(1))+'\n')    
+             f.write(x)
 
     # with open(catagory + '_train.txt', 'w+') as f:
     #     for x in imageList[ : int(0.8*imageNum)]:
